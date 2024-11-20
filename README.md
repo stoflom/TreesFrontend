@@ -8,7 +8,9 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 Run `ng serve --host 0.0.0.0`  for debug access from outside localhost. (Firewall must be openend first.)
 
-###  NOTE start frontend as follows to enable fetching as proxy from backend: (Seems to prevent CORS problems):
+### NOTE CORS now configured in backend server so proxy (see below) not needed
+### anymore.
+### CORS: start frontend as follows to enable fetching as proxy from backend: (Seems to prevent CORS problems):
  https://medium.com/bb-tutorials-and-thoughts/angular-how-to-proxy-to-backend-server-6fb37ef0d025
  https://www.positronx.io/handle-cors-in-angular-with-proxy-configuration/  (GOOD), or
 
