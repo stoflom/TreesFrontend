@@ -1,1 +1,93 @@
-<p>tree-detail works!</p>
+<div *ngIf="atree">
+    <h2 class="detail">
+        <a routerLink="/genus/{{ atree.genus.name }}" class="selectable">
+            {{ atree.genus.name }} </a>
+        {{ atree.species.name }}
+        <span *ngIf="atree.species.authority" class="auth">
+            {{atree.species.authority}}
+        </span>
+        <span *ngIf="atree.subspecies">
+            subsp. {{atree.subspecies.name}}
+        </span>
+        <span *ngIf="atree.subspecies?.authority" class="auth">
+            {{atree.subspecies?.authority}}
+        </span>
+        <span *ngIf="atree.variety">
+            var. {{atree.variety.name}}
+        </span>
+        <span *ngIf="atree.variety?.authority" class="auth">
+            {{atree.variety?.authority}}
+        </span> &nbsp;&nbsp;
+        {{ atree.FSAnumber }} {{ atree.Znumber }}
+        <span *ngIf="atree.group"> &nbsp;&nbsp; Group {{ atree.group }}</span>
+    </h2>
+
+    <div *ngIf="atree.comments">
+        <div *ngFor="let acomment of atree.comments">
+            <p>{{ acomment.text }}</p>
+        </div>
+    </div>
+
+    <span *ngIf="atree.synonyms">
+        <h3>
+            Synonyms:
+        </h3>
+        <table style="margin-block-end: 1em;">
+            <tr *ngFor="let synonym of atree.synonyms">
+                <td>{{ synonym.genus }} {{ synonym.species.name }}
+                    <span *ngIf="synonym.species.authority" style="font-size: 80%;">{{ synonym.species.authority}}
+                    </span>
+                    <span *ngIf="synonym.subspecies">
+                        subsp.{{synonym.subspecies.name}}
+                        <span style="font-size: 80%;" *ngIf="synonym.subspecies.authority">
+                            {{ synonym.subspecies.authority}}</span>
+                    </span>
+                    <span *ngIf="synonym.variety">
+                        var. {{ synonym.variety.name}}
+                        <span style="font-size: 80%;" *ngIf="synonym.variety.authority">
+                            {{ synonym.variety.authority}}</span>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </span>
+
+    <h3>
+        Common names:
+    </h3>
+    <table>
+        <tr *ngFor="let name of atree.cnames">
+            <td>{{ name.language }}</td>
+            <td>{{ name.names | commaSpace }}</td>
+        </tr>
+    </table>
+    <p style="font-size: 70%;">
+        † Indicates a preferred name.
+    </p>
+
+    <span *ngIf="atree.vegtypes">
+        <h3>
+            Vegetation types: {{ atree.vegtypes | commaSpace }}
+        </h3>
+    </span>
+
+    <span *ngIf="atree.hyperlinks">
+        <h3>
+            Hyperlinks:
+        </h3>
+        <table>
+            <tr *ngFor="let hlink of atree.hyperlinks">
+                <td>{{ hlink.language }}</td>
+                <td>
+                    <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
+                </td>
+            </tr>
+        </table>
+    </span>
+</div>
+
+<br><br><br>
+<div>
+    <button (click)="goBack()" class="selectable">Go back</button> or
+    <a routerLink="/search" class="selectable"> Search Again </a>
+</div>

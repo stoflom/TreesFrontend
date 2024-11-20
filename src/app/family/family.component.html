@@ -1,1 +1,49 @@
-<p>family works!</p>
+<div *ngIf="afamily">
+
+    <h2>Family: {{ afamily.name }} </h2>
+  
+  
+    <div *ngIf="afamily.comments">
+      <div *ngFor="let comment of afamily.comments">
+        <p>{{ comment.text }}</p>
+      </div>
+    </div>
+  
+    <span>
+  
+      <h3>
+        Common names:
+      </h3>
+      <table>
+        <tr *ngFor="let cname of afamily.cnames">
+          <td> {{cname.language}} </td>
+          <td> {{ cname.names | commaSpace}} </td>
+        </tr>
+      </table>
+  
+    </span>
+  
+    <span>
+  
+      <h3>
+        Genus list:
+      </h3>
+      <table>
+        <tr *ngFor="let agenus of afamily.genuslist">
+          <td>
+            <a routerLink="/genus/{{ agenus }}" class="selectable">
+              {{ agenus }} </a>
+          </td>
+        </tr>
+      </table>
+  
+    </span>
+  
+  </div>
+  
+  
+  <br><br><br>
+  <div>
+    <button (click)="goBack()" class="selectable">Go back</button> or
+    <a routerLink="/search" class="selectable"> Search Again </a>
+  </div>

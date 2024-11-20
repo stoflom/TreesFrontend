@@ -1,1 +1,63 @@
-<p>search-editor works!</p>
+<form   [formGroup]="searchlnregexFG" (ngSubmit)="onSubmitsearchlnregexFG()">
+    <label>Search for name match:</label>
+
+    <select formControlName="language">
+        <option value="Afr">Afrikaans</option>
+        <option value="Tng">Chitonga</option>
+        <option value="Eng">English</option>
+        <option value="Ger">Deutsch</option>
+        <option value="Her">Herero</option>
+        <option value="Nnd">isiNdebele</option>
+        <option value="Xho">isiXhosa</option>
+        <option value="Zul">isiZulu</option>
+        <option value="Nso">Sepedi</option>
+        <option value="Sso">Sesotho</option>
+        <option value="Tsw">Setswana</option>
+        <option value="Swa">siSwati</option>
+        <option value="Ven">Tshivenda</option>
+    </select>
+    <br>
+    <br>
+
+    <label style="font-size: 80%;"> (Perl regex e.g. thorn†?$) </label>
+    <input formControlName="searchterm" type="text">
+
+
+    <!--NOTE submit button must be inside form to work, or give it a form=id attribute-->
+    <button type="submit" [disabled]="!searchlnregexFG.valid" class="selectable">Search names</button>
+
+</form>
+
+
+<form [formGroup]="searchgroupFG" (ngSubmit)="onSubmitsearchgroupFG()">
+
+    <label>Search for a group: </label>
+    <input type="text" formControlName="group">
+
+
+    <!--NOTE submit button must be inside form to work-->
+    <button type="submit" [disabled]="!searchgroupFG.valid" class="selectable">Search group</button>
+
+</form>
+
+
+<form [formGroup]="searchgenusFG" (ngSubmit)="onSubmitsearchgenusFG()">
+
+    <label>Search for a genus: </label>
+    <input type="text" formControlName="genus">
+
+
+    <!--NOTE submit button must be inside form to work-->
+    <button type="submit" [disabled]="!searchgroupFG.valid" class="selectable">Search genus</button>
+
+</form>
+
+
+<form [formGroup]="searchfamilyFG" (ngSubmit)="onSubmitsearchfamilyFG()">
+    <label>Search for a family: </label>
+    <input type="text" formControlName="family">
+
+
+    <!--NOTE submit button must be inside form to work-->
+    <button type="submit" [disabled]="!searchfamilyFG.valid" class="selectable">Search family</button>
+</form>

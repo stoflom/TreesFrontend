@@ -1,4 +1,4 @@
-import { IComment, ICNames } from '../interface/common'
+import { IComment, ICNames } from '../interfaces/common'
 
 
 export interface IFamily {

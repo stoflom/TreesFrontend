@@ -1,4 +1,4 @@
-import { IComment, ICNames, ICHyperlink } from '../interface/common'
+import { IComment, ICNames, ICHyperlink } from '../interfaces/common'
 
 
 export interface IGenus {
