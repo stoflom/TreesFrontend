@@ -12,10 +12,10 @@ import { MessageService } from './message.service';
   providedIn: 'root',
 })
 export class TreehttpService {
-  //private SATreesUrl: string = 'http://localhost:5002/api';   //Remember CORS in backend!
+  private SATreesUrl: string = 'http://localhost:5002/api';   //Remember CORS in backend!
 
   //This assumes the backend will fetch via proxy.json config file (CORS still required)
-  private SATreesUrl: string = '/api';
+  //private SATreesUrl: string = '/api';
 
   private headersJSON = new HttpHeaders().set(
     'Content-Type',
