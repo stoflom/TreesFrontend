@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { CommaSpacePipe } from '../pipes/commaspace';
 
 @Component({
+    standalone: true,
     selector: 'app-family',
     imports: [
         CommonModule,       //Import into template

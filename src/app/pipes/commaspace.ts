@@ -5,7 +5,10 @@ import { Pipe, PipeTransform } from '@angular/core';
  *   {{ basboom,dikbas | ! CommaSpace }}
  *   formats to: basboom, dikbas
 */
-@Pipe({ name: 'commaSpace' })
+@Pipe({
+  standalone: true,
+  name: 'commaSpace'
+})
 export class CommaSpacePipe implements PipeTransform {
   transform(value: string[]): string {
     return value.join(', ');
