@@ -24,8 +24,7 @@ ng  serve --proxy-config proxy.json
             "proxyConfig": "./proxy.json",
             "host": "0.0.0.0"
           },...
-
-
+### The proxy.json should refer to "/api", not "/api/*"
 
 ## Code scaffolding
 
