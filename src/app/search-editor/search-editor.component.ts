@@ -21,7 +21,7 @@ export class SearchEditorComponent implements OnInit {
         private messageService: MessageService) {
     };
 
-    public searchparams = {  //These are initial-initial values, will be refreshed from persistance
+    public searchparams = {  //These are initial-initial values, will be refreshed from persistence
         language: 'Eng',
         searchterm: 'wood†?$',
         group: '1',
@@ -58,7 +58,7 @@ export class SearchEditorComponent implements OnInit {
                 family: this.searchparams.family
             });
         } else {
-            this.messageService.add("Could not retrieve search parameters from persistance.");
+            this.messageService.add("Could not retrieve search parameters from persistence.");
         }
 
     };
