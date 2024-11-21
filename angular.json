@@ -24,7 +24,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/tree-icon.png"
             ],
             "styles": [
               "src/styles.css"
@@ -85,7 +86,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/tree-icon.png"
             ],
             "styles": [
               "src/styles.css"
