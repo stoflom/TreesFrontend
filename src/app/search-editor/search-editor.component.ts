@@ -5,10 +5,9 @@ import { PersistService } from '../services/persist.service';
 import { MessageService } from '../services/message.service';
 
 @Component({
-    standalone: true,
     selector: 'app-search-editor',
     imports: [
-        ReactiveFormsModule  //Import into template
+        ReactiveFormsModule //Import into template
     ],
     templateUrl: './search-editor.component.html',
     styleUrl: './search-editor.component.css'

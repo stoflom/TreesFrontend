@@ -7,14 +7,13 @@ import { CommonModule } from '@angular/common';
 
 
 @Component({
-  standalone: true,
-  selector: 'app-trees',
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
-  templateUrl: './trees.component.html',
-  styleUrl: './trees.component.css'
+    selector: 'app-trees',
+    imports: [
+        CommonModule,
+        RouterModule
+    ],
+    templateUrl: './trees.component.html',
+    styleUrl: './trees.component.css'
 })
 export class TreesComponent implements OnInit {
 

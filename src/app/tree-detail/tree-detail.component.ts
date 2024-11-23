@@ -9,10 +9,9 @@ import { CommaSpacePipe } from '../pipes/commaspace';
 
 
 @Component({
-    standalone: true,
     selector: 'app-tree-detail',
     imports: [
-        CommonModule,   //Import into template
+        CommonModule, //Import into template
         RouterModule,
         CommaSpacePipe
     ],

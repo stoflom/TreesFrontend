@@ -9,15 +9,14 @@ import { RouterModule } from '@angular/router';
 import { CommaSpacePipe } from '../pipes/commaspace';
 
 @Component({
-  standalone: true,
-  selector: 'app-genus',
-  imports: [
-    CommonModule,       //Import into template
-    RouterModule,
-    CommaSpacePipe
-  ],
-  templateUrl: './genus.component.html',
-  styleUrl: './genus.component.css'
+    selector: 'app-genus',
+    imports: [
+        CommonModule, //Import into template
+        RouterModule,
+        CommaSpacePipe
+    ],
+    templateUrl: './genus.component.html',
+    styleUrl: './genus.component.css'
 })
 export class GenusComponent implements OnInit {
 
