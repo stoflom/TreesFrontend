@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
  *   formats to: basboom, dikbas
 */
 @Pipe({
-  standalone: true,
   name: 'commaSpace'
 })
 export class CommaSpacePipe implements PipeTransform {
