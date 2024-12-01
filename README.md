@@ -10,7 +10,7 @@ Run `ng serve --host 0.0.0.0`  for debug access from outside localhost. (Firewal
 
 ### NOTE CORS now configured in backend server so proxy (see below) not needed
 ### anymore.
-### CORS: start frontend as follows to enable fetching as proxy from backend: (Seems to prevent CORS problems):
+### CORS: start frontend as follows to enable fetching via proxy from backend: (to prevent CORS problems):
  https://medium.com/bb-tutorials-and-thoughts/angular-how-to-proxy-to-backend-server-6fb37ef0d025
  https://www.positronx.io/handle-cors-in-angular-with-proxy-configuration/  (GOOD), or
 
@@ -24,7 +24,7 @@ ng  serve --proxy-config proxy.json
             "proxyConfig": "./proxy.json",
             "host": "0.0.0.0"
           },...
-### The proxy.json should refer to "/api", not "/api/*"
+### NOTE:The proxy.json configuration should refer to "/api", not "/api/*"
 
 ## Code scaffolding
 
