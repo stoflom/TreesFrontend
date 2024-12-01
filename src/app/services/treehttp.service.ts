@@ -12,12 +12,10 @@ import { MessageService } from './message.service';
   providedIn: 'root',
 })
 export class TreehttpService {
-  private SATreesUrl: string = 'http://192.168.1.72:5002/api';   //Remember CORS in backend!
-  //lcalhost/0.0.0.0 all seems to fail! MUST use the full ip and "ng serve --host 0.0.0.0"
+  private SATreesUrl: string = 'http://192.168.1.81:5002/api';   //Remember CORS in backend!
+  //This URL will be used by frontend to access backend resources. If you
+  //use localhost you must fetch via proxy.json config file (CORS still required) 
 
-  //OR fetch via proxy.json config file (CORS still required) (Does this still work?)
-  // Seems must have "/api" in proxy and not "/api/*"  as before
-  //private SATreesUrl: string = '/api';
 
   private headersJSON = new HttpHeaders().set(
     'Content-Type',
