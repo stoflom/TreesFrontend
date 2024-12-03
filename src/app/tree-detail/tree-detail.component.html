@@ -1,19 +1,19 @@
 <div *ngIf="atree">
     <h2 class="detail">
         <a routerLink="/genus/{{ atree.genus.name }}" class="selectable">
-            {{ atree.genus.name }} </a>
-        {{ atree.species.name }}
+           <i> {{ atree.genus.name }}  </i> </a>
+        <i>{{ atree.species.name }} </i>
         <span *ngIf="atree.species.authority" class="auth">
             {{atree.species.authority}}
         </span>
         <span *ngIf="atree.subspecies">
-            subsp. {{atree.subspecies.name}}
+            subsp. <i>{{atree.subspecies.name}}  </i> 
         </span>
         <span *ngIf="atree.subspecies?.authority" class="auth">
             {{atree.subspecies?.authority}}
         </span>
         <span *ngIf="atree.variety">
-            var. {{atree.variety.name}}
+            var.<i> {{atree.variety.name}} </i>
         </span>
         <span *ngIf="atree.variety?.authority" class="auth">
             {{atree.variety?.authority}}
@@ -34,16 +34,16 @@
         </h3>
         <table style="margin-block-end: 1em;">
             <tr *ngFor="let synonym of atree.synonyms">
-                <td>{{ synonym.genus }} {{ synonym.species.name }}
+                <td> <i>{{ synonym.genus }} {{ synonym.species.name }} </i>
                     <span *ngIf="synonym.species.authority" style="font-size: 80%;">{{ synonym.species.authority}}
                     </span>
                     <span *ngIf="synonym.subspecies">
-                        subsp.{{synonym.subspecies.name}}
+                        subsp. <i>{{synonym.subspecies.name}}</i>
                         <span style="font-size: 80%;" *ngIf="synonym.subspecies.authority">
                             {{ synonym.subspecies.authority}}</span>
                     </span>
                     <span *ngIf="synonym.variety">
-                        var. {{ synonym.variety.name}}
+                        var. <i>{{ synonym.variety.name}} </i>
                         <span style="font-size: 80%;" *ngIf="synonym.variety.authority">
                             {{ synonym.variety.authority}}</span>
                     </span>

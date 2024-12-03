@@ -12,5 +12,5 @@ import { MessagesComponent } from './messages/messages.component';
     styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'TreesFrontend';
+  title = 'Dictionary of Names for Southern African Trees';
 }
