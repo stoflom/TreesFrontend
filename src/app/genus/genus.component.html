@@ -40,8 +40,12 @@
         <tr *ngFor="let tree of treespecies">
           <td>
             <a routerLink="/detail/{{ tree.id }}" class="selectable">
-              {{ tree.identity }} </a>
+              {{ tree.identity }} </a>  
           </td>
+          <td>
+              {{ tree.firstname}}
+          </td>
+
         </tr>
       </table>
     </ng-template>
