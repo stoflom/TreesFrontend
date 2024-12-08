@@ -1,64 +1,67 @@
 <div *ngIf="agenus">
 
-    <h2>Genus:
-      <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span> </h2>
-  
-    <h3>Family:
-  
-      <a routerLink="/family/{{ agenus.family }}" class="selectable">
-        {{ agenus.family }} </a>
-  
-    </h3>
-  
-    <div *ngIf="agenus.comments">
-      <div *ngFor="let comment of agenus.comments">
-        <p>{{ comment.text }}</p>
-      </div>
-    </div>
-  
-  
-  
-    <div>
-      <h3>
-        Common names:
-      </h3>
-      <table>
-        <tr *ngFor="let cname of agenus.cnames">
-          <td> {{cname.language}} </td>
-          <td> {{ cname.names | commaSpace}} </td>
-        </tr>
-      </table>
-    </div>
-  
-    <div *ngIf="treespecies; then thenBlock else elseBlock"> </div>
-  
-    <ng-template #thenBlock>
-      <h3>
-        Species List:
-      </h3>
-      <table>
-        <tr *ngFor="let tree of treespecies">
-          <td>
-            <a routerLink="/detail/{{ tree.id }}" class="selectable">
-              {{ tree.identity }} </a>  
-          </td>
-          <td>
-              {{ tree.firstname}}
-          </td>
+  <h2>Genus:
+    <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span>
+  </h2>
 
-        </tr>
-      </table>
-    </ng-template>
-    <ng-template #elseBlock>
-      <br>
-      <button (click)="getSpecies()" class="selectable">Get Species List</button>
-    </ng-template>
   
+
+  <h3>Family:
+
+    <a routerLink="/family/{{ agenus.family }}" class="selectable">
+      {{ agenus.family }} </a>
+
+  </h3>
+
+  <div *ngIf="agenus.comments">
+    <div *ngFor="let comment of agenus.comments">
+      <p>{{ comment.text }}</p>
+    </div>
   </div>
-  
-  
-  <br><br><br>
+
+
+
   <div>
-    <button (click)="goBack()" class="selectable">Go back</button> or
-    <a routerLink="/search" class="selectable"> Search Again </a>
+    <h3>
+      Common names:
+    </h3>
+    <table>
+      <tr *ngFor="let cname of agenus.cnames">
+        <td> {{cname.language}} </td>
+        <td> {{ cname.names | commaSpace}} </td>
+      </tr>
+    </table>
   </div>
+
+  <div *ngIf="treespecies; then thenBlock else elseBlock"> </div>
+
+  <ng-template #thenBlock>
+    <h3>
+      {{treespecies.length}} local tree specie(s) in genus: 
+    </h3>
+    <table>
+      <tr *ngFor="let tree of treespecies">
+        <td>
+          <a routerLink="/detail/{{ tree.id }}" class="selectable">
+            {{ tree.identity }} </a>
+        </td>
+        <td>
+          {{ tree.firstname}}
+        </td>
+
+      </tr>
+    </table>
+  </ng-template>
+  <ng-template #elseBlock>
+    <br>
+    <button (click)="getSpecies()" class="selectable">Get Species List</button>
+  </ng-template>
+
+</div>
+
+
+<br><br><br>
+<div>
+  <button (click)="goBack()" class="selectable">Go back</button> or
+  <a routerLink="/search" class="selectable"> Search Again </a>
+</div>
