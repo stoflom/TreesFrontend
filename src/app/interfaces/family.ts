@@ -1,4 +1,4 @@
-import { IComment, ICNames } from '../interfaces/common'
+import { IComment, ICNames, ICHyperlink } from '../interfaces/common'
 
 
 export interface IFamily {
@@ -6,6 +6,7 @@ export interface IFamily {
   cnames?: [ICNames];
   genuslist?: [string];
   comments?: [IComment];
+  hyperlinks?: ICHyperlink[];
 }
 
 //db queries return IFamilyDocument

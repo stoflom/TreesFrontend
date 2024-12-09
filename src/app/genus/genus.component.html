@@ -4,7 +4,7 @@
     <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span>
   </h2>
 
-  
+
 
   <h3>Family:
 
@@ -37,7 +37,7 @@
 
   <ng-template #thenBlock>
     <h3>
-      {{treespecies.length}} local tree specie(s) in genus: 
+      {{treespecies.length}} local tree specie(s) in genus:
     </h3>
     <table>
       <tr *ngFor="let tree of treespecies">
@@ -57,7 +57,23 @@
     <button (click)="getSpecies()" class="selectable">Get Species List</button>
   </ng-template>
 
+  <span *ngIf="agenus.hyperlinks">
+    <h3>
+      Hyperlinks:
+    </h3>
+    <table>
+      <tr *ngFor="let hlink of agenus.hyperlinks">
+        <td>{{ hlink.language }}</td>
+        <td>
+          <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
+        </td>
+      </tr>
+    </table>
+  </span>
+
 </div>
+
+
 
 
 <br><br><br>

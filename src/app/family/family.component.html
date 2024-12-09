@@ -39,6 +39,20 @@
 
   </span>
 
+  <span *ngIf="afamily.hyperlinks">
+    <h3>
+      Hyperlinks:
+    </h3>
+    <table>
+      <tr *ngFor="let hlink of afamily.hyperlinks">
+        <td>{{ hlink.language }}</td>
+        <td>
+          <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
+        </td>
+      </tr>
+    </table>
+  </span>
+
 </div>
 
 
