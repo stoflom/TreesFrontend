@@ -24,7 +24,7 @@ export class SearchEditorComponent implements OnInit {
         language: 'Eng',
         searchterm: 'wood†?$',
         group: '1',
-        genus: 'Albizia',
+        genus: 'Alb.*',
         family: 'Mimosaceae'
     };
 
@@ -99,7 +99,7 @@ export class SearchEditorComponent implements OnInit {
         let gns = this.searchgenusFG.value.genus;
         this.searchparams.genus = gns;
         this.persistService.persist(this.searchparams);
-        this.router.navigate(['/genus', gns]);
+        this.router.navigate(['/genus_regex', gns]);
     };
 
     searchfamilyFG = new UntypedFormGroup({

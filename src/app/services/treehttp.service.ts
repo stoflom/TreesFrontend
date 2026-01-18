@@ -12,7 +12,7 @@ import { MessageService } from './message.service';
   providedIn: 'root',
 })
 export class TreehttpService {
-  private SATreesUrl: string = 'http://192.168.0.8:5002/api';   //Remember CORS in backend!
+  private SATreesUrl: string = 'http://192.168.0.10:5002/api';   //Remember CORS in backend!
   //This URL will be used by frontend to access backend resources. If you
   //use localhost you must fetch via proxy.json config file (CORS still required) 
 
@@ -44,6 +44,7 @@ export class TreehttpService {
   }
 
   //Get all trees belonging to specified genus (only _Id, Identity)
+  //This is exact match and not regex
   findTreesByGenus(treesGenus: string): Observable<ITreeDocument[]> {
     if (!treesGenus.trim()) {
       // if not search term, return empty array.
@@ -117,7 +118,7 @@ export class TreehttpService {
   //Get all trees matching a query JSON object
   findTreesByQuery(treesQuery: string): Observable<ITreeDocument[]> {
     if (!treesQuery.trim()) {
-      // if not search term, return empty hero array.
+      // if not search term, return empty array.
       return of([]);
     }
     const url = `${this.SATreesUrl}/treesjq/${treesQuery}`;
@@ -126,7 +127,7 @@ export class TreehttpService {
       .pipe(
         tap((x) =>
           x.length
-            ? this.log(`Found trees matching "${treesQuery}"`)
+            ? this.log(`Found ${x.length} trees matching "${treesQuery}"`)
             : this.log(`No treess match "${treesQuery}"`)
         ),
         catchError(
@@ -138,13 +139,31 @@ export class TreehttpService {
 
   // Get Genus by name, return 'undefined' when not found
   findGenusByName(genusName: string): Observable<IGenusDocument> {
-    const url = `${this.SATreesUrl}/genus/${genusName}`;
+    const url = `${this.SATreesUrl}/genus/name/${genusName}`;
     return this.http.get<IGenusDocument>(url).pipe(
       tap((h) => {
         const outcome = h ? `fetched` : `did not find`;
         this.log(`Fetching genus by name: ${genusName}: ${outcome}`);
       }),
       catchError(this.handleError<IGenusDocument>(`Genus name=${genusName}`))
+    );
+  }
+
+   // Get Genus by regex name, returns array, return 'undefined' when not found
+  findGenusByRegexName(genusName: string): Observable<IGenusDocument[]> {
+    if (!genusName.trim()) {
+      // if not search term, return empty array.
+      return of([]);
+    }
+    const encodedgname = this.customEncodeURIComponent(genusName);
+    const url = `${this.SATreesUrl}/genus/regex/${encodedgname}`;
+    return this.http.get<IGenusDocument[]>(url).pipe(
+      tap((x) =>
+          x.length
+            ? this.log(`Found ${x.length} gena matching "${genusName}"`)
+            : this.log(`No gena match "${genusName }"`)
+        ),
+      catchError(this.handleError<IGenusDocument[]>(`Genus name=${genusName}`))
     );
   }
 
@@ -161,8 +180,8 @@ export class TreehttpService {
   }
 
   private customEncodeURIComponent(str: string): string {
-    // Encode everything except for '$' and '|' (for regex purposes)
-    return encodeURIComponent(str).replace(/%24/g, '$').replace(/%7C/g, '|');
+    // Escape '?' 
+    return str.replace(/\?/g, '%3F');
   }
 
   /**

@@ -12,6 +12,7 @@ export const routes: Routes = [
   { path: 'trees/:language/:nameregex', component: TreesComponent },
   { path: 'group/:group', component: TreesComponent },
   { path: 'genus/:name', component: GenusComponent },
+  { path: 'genus_regex/:name', component: GenusComponent },
   { path: 'family/:name', component: FamilyComponent },
   { path: '', redirectTo: 'search', pathMatch: 'full' }             //Default route,run on startup
 

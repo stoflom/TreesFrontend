@@ -22,7 +22,7 @@ export class GenusComponent implements OnInit {
   agenus!: IGenusDocument;   //definite assignment
   treespecies!: ITreeDocument[];
 
-  genusname: string = <string>this.route.snapshot.paramMap.get('name');
+  genusnameparam: string = <string>this.route.snapshot.paramMap.get('name');
 
   constructor(
     private route: ActivatedRoute,
@@ -36,12 +36,17 @@ export class GenusComponent implements OnInit {
   }
 
   getGenus(): void {
-    this.treehttpService.findGenusByName(this.genusname)
+    if (this.route.snapshot.url[0].path === 'genus_regex') {
+      this.treehttpService.findGenusByRegexName(this.genusnameparam)
+        .subscribe(genus => this.agenus = genus[0]); //Take first match
+      return;
+    } 
+    this.treehttpService.findGenusByName(this.genusnameparam)
       .subscribe(genus => this.agenus = genus);
   }
 
   getSpecies(): void {
-    this.treehttpService.findTreesByGenus(this.genusname)
+    this.treehttpService.findTreesByGenus(this.agenus.name)
       .subscribe(species => this.treespecies = species);
 
   }
