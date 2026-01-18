@@ -4,17 +4,16 @@ import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
 import { IGenusDocument } from '../interfaces/genus';
 import { ITreeDocument } from '../interfaces/tree';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { CommaSpacePipe } from '../pipes/commaspace';
 
 @Component({
     selector: 'app-genus',
     imports: [
-        CommonModule, //Import into template
-        RouterModule,
-        CommaSpacePipe
-    ],
+    RouterModule,
+    CommaSpacePipe
+],
     templateUrl: './genus.component.html',
     styleUrl: './genus.component.css'
 })

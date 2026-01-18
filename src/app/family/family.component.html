@@ -1,63 +1,66 @@
-<div *ngIf="afamily">
-
-  <h2>Family: {{ afamily.name }} </h2>
-
-
-  <div *ngIf="afamily.comments">
-    <div *ngFor="let comment of afamily.comments">
-      <p>{{ comment.text }}</p>
+@if (afamily) {
+  <div>
+    <h2>Family: {{ afamily.name }} </h2>
+    @if (afamily.comments) {
+      <div>
+        @for (comment of afamily.comments; track comment) {
+          <div>
+            <p>{{ comment.text }}</p>
+          </div>
+        }
+      </div>
+    }
+    <span>
+      <h3>
+        Common names:
+      </h3>
+      <table>
+        @for (cname of afamily.cnames; track cname) {
+          <tr>
+            <td> {{cname.language}} </td>
+            <td> {{ cname.names | commaSpace}} </td>
+          </tr>
+        }
+      </table>
+    </span>
+    <span>
+      <h3>
+        {{afamily.genuslist?.length}} local tree genera(us) in family:
+      </h3>
+      <table>
+        @for (agenus of afamily.genuslist; track agenus) {
+          <tr>
+            <td>
+              <a routerLink="/genus/{{ agenus }}" class="selectable">
+                <i>{{ agenus }}</i> </a>
+              </td>
+            </tr>
+          }
+        </table>
+      </span>
+      @if (afamily.hyperlinks) {
+        <span>
+          <h3>
+            Hyperlinks:
+          </h3>
+          <table>
+            @for (hlink of afamily.hyperlinks; track hlink) {
+              <tr>
+                <td>{{ hlink.language }}</td>
+                <td>
+                  <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
+                </td>
+              </tr>
+            }
+          </table>
+        </span>
+      }
     </div>
+  }
+
+
+  <br><br><br>
+  <div>
+    <button (click)="goBack()" class="selectable">Go back</button> or
+    <a routerLink="/search" class="selectable"> Search Again </a>
   </div>
-
-  <span>
-
-    <h3>
-      Common names:
-    </h3>
-    <table>
-      <tr *ngFor="let cname of afamily.cnames">
-        <td> {{cname.language}} </td>
-        <td> {{ cname.names | commaSpace}} </td>
-      </tr>
-    </table>
-
-  </span>
-
-  <span>
-
-    <h3>
-      {{afamily.genuslist?.length}} local tree genera(us) in family:
-    </h3>
-    <table>
-      <tr *ngFor="let agenus of afamily.genuslist">
-        <td>
-          <a routerLink="/genus/{{ agenus }}" class="selectable">
-            <i>{{ agenus }}</i> </a>
-        </td>
-      </tr>
-    </table>
-
-  </span>
-
-  <span *ngIf="afamily.hyperlinks">
-    <h3>
-      Hyperlinks:
-    </h3>
-    <table>
-      <tr *ngFor="let hlink of afamily.hyperlinks">
-        <td>{{ hlink.language }}</td>
-        <td>
-          <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
-        </td>
-      </tr>
-    </table>
-  </span>
-
-</div>
-
-
-<br><br><br>
-<div>
-  <button (click)="goBack()" class="selectable">Go back</button> or
-  <a routerLink="/search" class="selectable"> Search Again </a>
-</div>

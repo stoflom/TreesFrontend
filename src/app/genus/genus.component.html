@@ -1,83 +1,80 @@
-<div *ngIf="agenus">
-
-  <h2>Genus:
-    <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span>
-  </h2>
-
-
-
-  <h3>Family:
-
-    <a routerLink="/family/{{ agenus.family }}" class="selectable">
-      {{ agenus.family }} </a>
-
-  </h3>
-
-  <div *ngIf="agenus.comments">
-    <div *ngFor="let comment of agenus.comments">
-      <p>{{ comment.text }}</p>
-    </div>
-  </div>
-
-
-
+@if (agenus) {
   <div>
-    <h3>
-      Common names:
+    <h2>Genus:
+      <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span>
+    </h2>
+    <h3>Family:
+      <a routerLink="/family/{{ agenus.family }}" class="selectable">
+      {{ agenus.family }} </a>
     </h3>
-    <table>
-      <tr *ngFor="let cname of agenus.cnames">
-        <td> {{cname.language}} </td>
-        <td> {{ cname.names | commaSpace}} </td>
-      </tr>
-    </table>
+    @if (agenus.comments) {
+      <div>
+        @for (comment of agenus.comments; track comment) {
+          <div>
+            <p>{{ comment.text }}</p>
+          </div>
+        }
+      </div>
+    }
+    <div>
+      <h3>
+        Common names:
+      </h3>
+      <table>
+        @for (cname of agenus.cnames; track cname) {
+          <tr>
+            <td> {{cname.language}} </td>
+            <td> {{ cname.names | commaSpace}} </td>
+          </tr>
+        }
+      </table>
+    </div>
+    @if (treespecies) {
+      <h3>
+        {{treespecies.length}} local tree specie(s) in genus:
+      </h3>
+      <table>
+        @for (tree of treespecies; track tree) {
+          <tr>
+            <td>
+              <a routerLink="/detail/{{ tree.id }}" class="selectable">
+              {{ tree.identity }} </a>
+            </td>
+            <td>
+              {{ tree.firstname }}
+            </td>
+          </tr>
+        }
+      </table>
+    } @else {
+      <br>
+        <button (click)="getSpecies()" class="selectable">Get Species List</button>
+      }
+      @if (agenus.hyperlinks) {
+        <span>
+          <h3>
+            Hyperlinks:
+          </h3>
+          <table>
+            @for (hlink of agenus.hyperlinks; track hlink) {
+              <tr>
+                <td>{{ hlink.language }}</td>
+                <td>
+                  <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
+                </td>
+              </tr>
+            }
+          </table>
+        </span>
+      }
+    </div>
+  }
+
+
+
+
+  <br><br><br>
+  <div>
+    <button (click)="goBack()" class="selectable">Go back</button> or
+    <a routerLink="/search" class="selectable"> Search Again </a>
   </div>
-
-  <div *ngIf="treespecies; then thenBlock else elseBlock"> </div>
-
-  <ng-template #thenBlock>
-    <h3>
-      {{treespecies.length}} local tree specie(s) in genus:
-    </h3>
-    <table>
-      <tr *ngFor="let tree of treespecies">
-        <td>
-          <a routerLink="/detail/{{ tree.id }}" class="selectable">
-            {{ tree.identity }} </a>
-        </td>
-        <td>
-          {{ tree.firstname}}
-        </td>
-
-      </tr>
-    </table>
-  </ng-template>
-  <ng-template #elseBlock>
-    <br>
-    <button (click)="getSpecies()" class="selectable">Get Species List</button>
-  </ng-template>
-
-  <span *ngIf="agenus.hyperlinks">
-    <h3>
-      Hyperlinks:
-    </h3>
-    <table>
-      <tr *ngFor="let hlink of agenus.hyperlinks">
-        <td>{{ hlink.language }}</td>
-        <td>
-          <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
-        </td>
-      </tr>
-    </table>
-  </span>
-
-</div>
-
-
-
-
-<br><br><br>
-<div>
-  <button (click)="goBack()" class="selectable">Go back</button> or
-  <a routerLink="/search" class="selectable"> Search Again </a>
-</div>

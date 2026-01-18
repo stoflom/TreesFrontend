@@ -41,7 +41,7 @@ export interface ITreeDocument extends ITree {
     id: string; //Added by Mongoose, _id is also available.
     //Virtuals are accessible on TreeDocument, similar to _id property which are built in by mongoose
     //  binomial: (this: ITreeDocument) => string;
-    identity: (this: ITreeDocument) => string;
-    scientificName: (this: ITreeDocument) => string;
-    firstname: (this: ITreeDocument) => string;
+    identity?: string;
+    scientificName?: string;
+    firstname?: string;
 }

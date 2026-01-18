@@ -3,15 +3,14 @@ import { ITreeDocument } from '../interfaces/tree';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
-import { CommonModule } from '@angular/common';
+
 
 
 @Component({
     selector: 'app-trees',
     imports: [
-        CommonModule,
-        RouterModule
-    ],
+    RouterModule
+],
     templateUrl: './trees.component.html',
     styleUrl: './trees.component.css'
 })

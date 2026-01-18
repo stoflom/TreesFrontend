@@ -59,7 +59,7 @@ export class TreehttpService {
       ),
       catchError(
         this.handleError<ITreeDocument[]>(
-          `ERROR Tree genus query: ${treesGenus}`
+          `ERROR Tree genus query: ${treesGenus}`, []
         )
       )
     );
@@ -81,7 +81,7 @@ export class TreehttpService {
       ),
       catchError(
         this.handleError<ITreeDocument[]>(
-          `ERROR Tree group query: ${treesGroup}`
+          `ERROR Tree group query: ${treesGroup}`, []
         )
       )
     );
@@ -98,7 +98,8 @@ export class TreehttpService {
       return of([]);
     }
     //Should actually use httpclient here
-    const url = `${this.SATreesUrl}/cnlan/${language}/${encodeURIComponent(cnameregex)}`;
+    const encodedCnameRegex = this.customEncodeURIComponent(cnameregex);
+    const url = `${this.SATreesUrl}/cnlan/${language}/${encodedCnameRegex}`;
     return this.http.get<ITreeDocument[]>(url).pipe(
       tap((x) =>
         x.length
@@ -107,7 +108,7 @@ export class TreehttpService {
       ),
       catchError(
         this.handleError<ITreeDocument[]>(
-          `ERROR Tree genus query: ${cnameregex}`
+          `ERROR Tree genus query: ${cnameregex}`, []
         )
       )
     );
@@ -129,7 +130,7 @@ export class TreehttpService {
             : this.log(`No treess match "${treesQuery}"`)
         ),
         catchError(
-          this.handleError<ITreeDocument[]>(`Trees query: ${treesQuery}`)
+          this.handleError<ITreeDocument[]>(`Trees query: ${treesQuery}`, [])
         )
       );
   }
@@ -157,6 +158,11 @@ export class TreehttpService {
       }),
       catchError(this.handleError<IFamilyDocument>(`Family name=${familyName}`))
     );
+  }
+
+  private customEncodeURIComponent(str: string): string {
+    // Encode everything except for '$' and '|' (for regex purposes)
+    return encodeURIComponent(str).replace(/%24/g, '$').replace(/%7C/g, '|');
   }
 
   /**

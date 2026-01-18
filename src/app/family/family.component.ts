@@ -3,17 +3,16 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
 import { IFamilyDocument } from '../interfaces/family';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { CommaSpacePipe } from '../pipes/commaspace';
 
 @Component({
     selector: 'app-family',
     imports: [
-        CommonModule, //Import into template
-        RouterModule,
-        CommaSpacePipe
-    ],
+    RouterModule,
+    CommaSpacePipe
+],
     templateUrl: './family.component.html',
     styleUrl: './family.component.css'
 })

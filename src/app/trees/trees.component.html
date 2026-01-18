@@ -1,22 +1,26 @@
 <div class="header"></div>
-<h2 *ngIf="trees">Found {{ trees.length }} Trees</h2> <!--Must check if trees are defined here!-->
+@if (trees) {
+  <h2>Found {{ trees.length }} Trees</h2>
+  } <!--Must check if trees are defined here!-->
 
-<h3>Click on a tree name</h3>
+  <h3>Click on a tree name</h3>
 
-<table>
-  <tr *ngFor="let tree of trees">
-    <td>
-      <a routerLink="/detail/{{ tree.id }}" class="selectable">
-        {{ tree.identity }} </a>
-    </td>
-    <td>
-      {{ tree.firstname }}
-    </td>
-  </tr>
-</table>
+  <table>
+    @for (tree of trees; track tree) {
+      <tr>
+        <td>
+          <a routerLink="/detail/{{ tree.id }}" class="selectable">
+          {{ tree.identity }} </a>
+        </td>
+        <td>
+          {{ tree.firstname }}
+        </td>
+      </tr>
+    }
+  </table>
 
-<div>
-  <h2>
-    <a routerLink="/search" class="selectable"> Search Again </a>
-  </h2>
-</div>
+  <div>
+    <h2>
+      <a routerLink="/search" class="selectable"> Search Again </a>
+    </h2>
+  </div>
