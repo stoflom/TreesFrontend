@@ -15,7 +15,7 @@ export class TreehttpService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
 
-  private SATreesUrl = 'http://192.168.0.10:5002/api';   //Remember CORS in backend!
+  private SATreesUrl = 'http://192.168.0.8:5002/api';   //Remember CORS in backend!
   //This URL will be used by frontend to access backend resources. If you
   //use localhost you must fetch via proxy.json config file (CORS still required) 
 
