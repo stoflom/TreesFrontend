@@ -1,0 +1,25 @@
+<div class="header"></div>
+@if (gena) {
+  <h2>Found {{ gena.length }} Gena</h2>
+}
+<!--Must check if gena are defined here!-->
+
+<h3>Click on a genus name</h3>
+
+<table>
+  @for (genus of gena; track genus) {
+    <tr>
+      <td>
+        <a routerLink="/genus/{{ genus.id }}" class="selectable">
+          {{ genus.name }}
+        </a>
+      </td>
+    </tr>
+  }
+</table>
+
+<div>
+  <h2>
+    <a routerLink="/search" class="selectable"> Search Again </a>
+  </h2>
+</div>
