@@ -30,7 +30,7 @@ export class FamilyComponent implements OnInit {
 
 
     getFamily(): void {     
-        const name = this.route.snapshot.paramMap.get(' name') as string;
+        const name = this.route.snapshot.paramMap.get('name') as string;
         this.treehttpService.findFamilyByName(name)
             .subscribe(family => this.afamily = family);   //When family is returned (observed) assign it to afamily.
     }
