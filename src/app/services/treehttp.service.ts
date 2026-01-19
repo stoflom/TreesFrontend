@@ -159,8 +159,8 @@ export class TreehttpService {
     return this.http.get<IGenusDocument[]>(url).pipe(
       tap((x) =>
           x.length
-            ? this.log(`Found ${x.length} gena matching "${genusName}"`)
-            : this.log(`No gena match "${genusName }"`)
+            ? this.log(`Found ${x.length} Genera matching "${genusName}"`)
+            : this.log(`No Genera match "${genusName }"`)
         ),
       catchError(this.handleError<IGenusDocument[]>(`Genus name=${genusName}`))
     );

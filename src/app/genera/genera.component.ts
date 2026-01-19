@@ -6,20 +6,20 @@ import { Location } from '@angular/common';
 
 
 @Component({
-    selector: 'app-gena',
+    selector: 'app-Genera',
     imports: [
     RouterModule
 ],
-    templateUrl: './gena.component.html',
-    styleUrl: './gena.component.css'
+    templateUrl: './genera.component.html',
+    styleUrl: './genera.component.css'
 })
-export class GenaComponent implements OnInit {
+export class GeneraComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private treehttpService = inject(TreehttpService);
   private location = inject(Location);
 
 
-  gena: IGenusDocument[] = {} as IGenusDocument[];   //definite assignment
+  Genera: IGenusDocument[] = {} as IGenusDocument[];   //definite assignment
 
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class GenaComponent implements OnInit {
   getGenaByNameRegex(genusregex: string): void {
 
       this.treehttpService.findGenusByRegexName(genusregex)
-        .subscribe(gena => this.gena = gena); //Take first match
+        .subscribe(Genera => this.Genera = Genera); //Take first match
       return;
   
   }
