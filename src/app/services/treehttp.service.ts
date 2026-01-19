@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
@@ -12,6 +12,9 @@ import { MessageService } from './message.service';
   providedIn: 'root',
 })
 export class TreehttpService {
+  private http = inject(HttpClient);
+  private messageService = inject(MessageService);
+
   private SATreesUrl: string = 'http://192.168.0.10:5002/api';   //Remember CORS in backend!
   //This URL will be used by frontend to access backend resources. If you
   //use localhost you must fetch via proxy.json config file (CORS still required) 
@@ -26,10 +29,6 @@ export class TreehttpService {
     'Content-Type',
     'application/x-www-form-urlencoded'
   );
-
-  constructor(
-    private http: HttpClient, private messageService: MessageService
-  ) { }
 
   // Get tree by Id, return 'undefined' when id not found
   findTreeById(treeId: string): Observable<ITreeDocument> {

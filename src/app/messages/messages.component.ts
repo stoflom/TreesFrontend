@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MessageService } from '../services/message.service';
 
 
@@ -9,8 +9,8 @@ import { MessageService } from '../services/message.service';
     styleUrl: './messages.component.css'
 })
 export class MessagesComponent implements OnInit {
+  messageService = inject(MessageService);
 
-  constructor(public messageService: MessageService) { }
 
   ngOnInit() {
   }

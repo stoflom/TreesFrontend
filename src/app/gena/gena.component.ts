@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IGenusDocument } from '../interfaces/genus';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -14,19 +14,17 @@ import { Location } from '@angular/common';
     styleUrl: './gena.component.css'
 })
 export class GenaComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private treehttpService = inject(TreehttpService);
+  private location = inject(Location);
+
 
   gena!: IGenusDocument[];
 
-  constructor(
-    private route: ActivatedRoute,
-    private treehttpService: TreehttpService,
-    private location: Location
-  ) { }
 
-  // tslint:disable-next-line: typedef
   ngOnInit() {
 
-    const genusregex: string = <string>this.route.snapshot.paramMap.get('name');
+    const genusregex: string = this.route.snapshot.paramMap.get('name') as string;
     
     //must check for good query strings here
 

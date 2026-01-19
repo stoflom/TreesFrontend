@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ITreeDocument } from '../interfaces/tree';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
@@ -18,13 +18,11 @@ import { CommaSpacePipe } from '../pipes/commaspace';
     styleUrl: './tree-detail.component.css'
 })
 export class TreeDetailComponent implements OnInit {
-    atree!: ITreeDocument;   //definite assignment
+    private route = inject(ActivatedRoute);
+    private treehttpService = inject(TreehttpService);
+    private location = inject(Location);
 
-    constructor(
-        private route: ActivatedRoute,
-        private treehttpService: TreehttpService,
-        private location: Location
-    ) { }
+    atree!: ITreeDocument;
 
     ngOnInit(): void {
         this.getTree()

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ITreeDocument } from '../interfaces/tree';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
@@ -15,15 +15,13 @@ import { Location } from '@angular/common';
     styleUrl: './trees.component.css'
 })
 export class TreesComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private treehttpService = inject(TreehttpService);
+  private location = inject(Location);
+
 
   selectedTree!: ITreeDocument;
   trees!: ITreeDocument[];
-
-  constructor(
-    private route: ActivatedRoute,
-    private treehttpService: TreehttpService,
-    private location: Location
-  ) { }
 
   // tslint:disable-next-line: typedef
   ngOnInit() {

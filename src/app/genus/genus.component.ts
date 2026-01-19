@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
@@ -18,17 +18,15 @@ import { CommaSpacePipe } from '../pipes/commaspace';
     styleUrl: './genus.component.css'
 })
 export class GenusComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private treehttpService = inject(TreehttpService);
+  private location = inject(Location);
+
 
   agenus!: IGenusDocument;   //definite assignment
   treespecies!: ITreeDocument[];
 
-  genusnameparam: string = <string>this.route.snapshot.paramMap.get('name');
-
-  constructor(
-    private route: ActivatedRoute,
-    private treehttpService: TreehttpService,
-    private location: Location
-  ) { }
+  genusnameparam: string = this.route.snapshot.paramMap.get('name') as string;
 
   ngOnInit(): void {
     this.getGenus();

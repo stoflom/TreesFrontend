@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
 //This should use the database or be stored statically here,
@@ -9,8 +9,8 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class PersistService {
-
-  constructor(private cookieService: CookieService) { };
+  private cookieService = inject(CookieService);
+;
 
   private cookieName: string = 'SearchParams';
 

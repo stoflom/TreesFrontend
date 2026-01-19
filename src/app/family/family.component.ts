@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
@@ -17,22 +17,20 @@ import { CommaSpacePipe } from '../pipes/commaspace';
     styleUrl: './family.component.css'
 })
 export class FamilyComponent implements OnInit {
+    private route = inject(ActivatedRoute);
+    private treehttpService = inject(TreehttpService);
+    private location = inject(Location);
 
-    afamily!: IFamilyDocument;   //definite assignment
 
-    constructor(
-        private route: ActivatedRoute,
-        private treehttpService: TreehttpService,
-        private location: Location
-    ) { }
+    afamily!: IFamilyDocument;
 
     ngOnInit(): void {
         this.getFamily()
     }
 
 
-    getFamily(): void {
-        const name: string = <string>this.route.snapshot.paramMap.get('name');
+    getFamily(): void {     
+        const name = this.route.snapshot.paramMap.get(' name') as string;
         this.treehttpService.findFamilyByName(name)
             .subscribe(family => this.afamily = family);   //When family is returned (observed) assign it to afamily.
     }

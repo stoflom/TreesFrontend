@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PersistService } from '../services/persist.service';
@@ -13,12 +13,10 @@ import { MessageService } from '../services/message.service';
     styleUrl: './search-editor.component.css'
 })
 export class SearchEditorComponent implements OnInit {
-
-    constructor(
-        private router: Router,
-        private persistService: PersistService,
-        private messageService: MessageService) {
-    };
+    private router = inject(Router);
+    private persistService = inject(PersistService);
+    private messageService = inject(MessageService);
+;
 
     public searchparams = {  //These are initial-initial values, will be refreshed from persistence
         language: 'Eng',
