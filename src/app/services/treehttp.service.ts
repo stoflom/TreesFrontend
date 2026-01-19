@@ -15,7 +15,7 @@ export class TreehttpService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
 
-  private SATreesUrl: string = 'http://192.168.0.10:5002/api';   //Remember CORS in backend!
+  private SATreesUrl = 'http://192.168.0.10:5002/api';   //Remember CORS in backend!
   //This URL will be used by frontend to access backend resources. If you
   //use localhost you must fetch via proxy.json config file (CORS still required) 
 
@@ -190,12 +190,15 @@ export class TreehttpService {
    * @param result - optional value to return as the observable result
    */
   private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
+    return (error: unknown): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure  
       console.error(error); // log to console instead
 
+      // Extract a message in a typed-safe way
+      const errMsg = (error as { message?: string })?.message ?? String(error);
+
       // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
+      this.log(`${operation} failed: ${errMsg}`);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);

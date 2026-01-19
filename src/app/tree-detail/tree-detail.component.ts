@@ -29,7 +29,7 @@ export class TreeDetailComponent implements OnInit {
     }
 
     getTree(): void {
-        const id: string = <string>this.route.snapshot.paramMap.get('id');
+        const id: string = this.route.snapshot.paramMap.get('id') as string;
         this.treehttpService.findTreeById(id)
             .subscribe(tree => this.atree = tree);
     }

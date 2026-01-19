@@ -23,12 +23,12 @@ export class TreesComponent implements OnInit {
   selectedTree!: ITreeDocument;
   trees!: ITreeDocument[];
 
-  // tslint:disable-next-line: typedef
+ 
   ngOnInit() {
 
-    const language: string = <string>this.route.snapshot.paramMap.get('language');
-    const nameregex: string = <string>this.route.snapshot.paramMap.get('nameregex');
-    const group: string = <string>this.route.snapshot.paramMap.get('group');
+    const language: string = this.route.snapshot.paramMap.get('language') as string;
+    const nameregex: string = this.route.snapshot.paramMap.get('nameregex') as string;
+    const group: string = this.route.snapshot.paramMap.get('group') as string;
     //must check for good query strings here
 
     if (language && nameregex) {

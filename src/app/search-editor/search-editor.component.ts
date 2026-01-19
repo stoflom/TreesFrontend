@@ -28,7 +28,7 @@ export class SearchEditorComponent implements OnInit {
 
     ngOnInit(): void {
 
-        let obj: object | null = this.persistService.retrieve();
+        const obj: object | null = this.persistService.retrieve();
 
         if (obj != null && typeof obj === typeof this.searchparams) {
             // console.warn(this.persistService.retrieve());
@@ -67,8 +67,8 @@ export class SearchEditorComponent implements OnInit {
 
     public onSubmitsearchlnregexFG() {
         //console.warn(this.searchlnregexFG.value);
-        let lang = this.searchlnregexFG.value.language;
-        let term = this.searchlnregexFG.value.searchterm;
+        const lang = this.searchlnregexFG.value.language;
+        const term = this.searchlnregexFG.value.searchterm;
         this.searchparams.language = lang;
         this.searchparams.searchterm = term;
         this.persistService.persist(this.searchparams);
@@ -82,7 +82,7 @@ export class SearchEditorComponent implements OnInit {
 
     public onSubmitsearchgroupFG() {
         //  console.warn(this.searchgroupFG.value);
-        let grp = this.searchgroupFG.value.group;
+        const grp = this.searchgroupFG.value.group;
         this.searchparams.group = grp;
         this.persistService.persist(this.searchparams);
         this.router.navigate(['/group', grp]);
@@ -94,7 +94,7 @@ export class SearchEditorComponent implements OnInit {
 
     public onSubmitsearchgenusFG() {
         //  console.warn(this.searchgenusFG.value);
-        let gns = this.searchgenusFG.value.genus;
+        const gns = this.searchgenusFG.value.genus;
         this.searchparams.genus = gns;
         this.persistService.persist(this.searchparams);
         this.router.navigate(['/genus_regex', gns]);
@@ -106,7 +106,7 @@ export class SearchEditorComponent implements OnInit {
 
     public onSubmitsearchfamilyFG() {
         //  console.warn(this.searchfamilyFG.value);
-        let fam = this.searchfamilyFG.value.family;
+        const fam = this.searchfamilyFG.value.family;
         this.searchparams.family = fam;
         this.persistService.persist(this.searchparams);
         this.router.navigate(['/family', fam]);

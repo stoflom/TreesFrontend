@@ -12,7 +12,7 @@ export class PersistService {
   private cookieService = inject(CookieService);
 ;
 
-  private cookieName: string = 'SearchParams';
+  private cookieName = 'SearchParams';
 
   public retrieve() {
     if (this.cookieService.check(this.cookieName)) {
