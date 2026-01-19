@@ -34,11 +34,6 @@ export class GenusComponent implements OnInit {
   }
 
   getGenus(): void {
-    if (this.route.snapshot.url[0].path === 'genus_regex') {
-      this.treehttpService.findGenusByRegexName(this.genusnameparam)
-        .subscribe(genus => this.agenus = genus[0]); //Take first match
-      return;
-    } 
     this.treehttpService.findGenusByName(this.genusnameparam)
       .subscribe(genus => this.agenus = genus);
   }
@@ -48,8 +43,6 @@ export class GenusComponent implements OnInit {
       .subscribe(species => this.treespecies = species);
 
   }
-
-
 
   goBack(): void {
     this.location.back();
