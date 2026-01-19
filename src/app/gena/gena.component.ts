@@ -19,7 +19,7 @@ export class GenaComponent implements OnInit {
   private location = inject(Location);
 
 
-  gena!: IGenusDocument[];
+  gena: IGenusDocument[] = {} as IGenusDocument[];   //definite assignment
 
 
   ngOnInit() {

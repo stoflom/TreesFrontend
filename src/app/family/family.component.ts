@@ -22,7 +22,7 @@ export class FamilyComponent implements OnInit {
     private location = inject(Location);
 
 
-    afamily!: IFamilyDocument;
+    afamily: IFamilyDocument = {} as IFamilyDocument;   //definite assignment
 
     ngOnInit(): void {
         this.getFamily()

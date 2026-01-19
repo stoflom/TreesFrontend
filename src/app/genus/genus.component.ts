@@ -23,7 +23,7 @@ export class GenusComponent implements OnInit {
   private location = inject(Location);
 
 
-  agenus!: IGenusDocument;   //definite assignment
+  agenus: IGenusDocument = {} as IGenusDocument;   //definite assignment
   treespecies!: ITreeDocument[];
 
   genusnameparam: string = this.route.snapshot.paramMap.get('name') as string;

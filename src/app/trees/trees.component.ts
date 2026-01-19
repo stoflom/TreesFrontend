@@ -20,8 +20,8 @@ export class TreesComponent implements OnInit {
   private location = inject(Location);
 
 
-  selectedTree!: ITreeDocument;
-  trees!: ITreeDocument[];
+  selectedTree: ITreeDocument = {} as ITreeDocument; //definite assignment  
+  trees: ITreeDocument[] = {} as ITreeDocument[];   //definite assignment
 
  
   ngOnInit() {
