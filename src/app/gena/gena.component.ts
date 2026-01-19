@@ -5,7 +5,6 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 
 
-
 @Component({
     selector: 'app-gena',
     imports: [
@@ -16,8 +15,6 @@ import { Location } from '@angular/common';
 })
 export class GenaComponent implements OnInit {
 
-  
-  selectedgenus!: IGenusDocument;
   gena!: IGenusDocument[];
 
   constructor(
@@ -29,7 +26,7 @@ export class GenaComponent implements OnInit {
   // tslint:disable-next-line: typedef
   ngOnInit() {
 
-    const genusregex: string = <string>this.route.snapshot.paramMap.get('genusregex');
+    const genusregex: string = <string>this.route.snapshot.paramMap.get('name');
     
     //must check for good query strings here
 

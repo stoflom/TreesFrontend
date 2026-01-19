@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TreesComponent } from './trees.component';
 
 describe('TreesComponent', () => {
