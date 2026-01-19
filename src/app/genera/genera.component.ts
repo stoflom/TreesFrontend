@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 
 
 @Component({
-    selector: 'app-Genera',
+    selector: 'app-genera',
     imports: [
     RouterModule
 ],
