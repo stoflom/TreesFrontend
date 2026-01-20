@@ -54,9 +54,7 @@ export class SearchEditorComponent implements OnInit {
             this.searchfamilyFG.reset({
                 family: this.searchparams.family
             });
-        } else {
-            this.messageService.add("Could not retrieve search parameters from persistence.");
-        }
+        } 
 
     };
 
