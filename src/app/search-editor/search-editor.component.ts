@@ -37,7 +37,7 @@ export class SearchEditorComponent implements OnInit {
 
 
             //Seems that this is called after the form has been pre-constructed so the
-            //  initialcookie values never feature unless the form is reset!
+            //  initial values never feature unless the form is reset!
             this.searchlnregexFG.reset({
                 language: this.searchparams.language,
                 searchterm: this.searchparams.searchterm
