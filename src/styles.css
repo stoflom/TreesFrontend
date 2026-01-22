@@ -135,8 +135,6 @@ h3 {
 }
 
 /* Controls */
-input[type="text"],
-button,
 textarea,
 select {
   color: var(--text-dark);
@@ -264,24 +262,31 @@ select {
   color: var(--text-dark);
 }
 
+/* Disabled state for accessibility */
+input:disabled,
+textarea:disabled,
+select:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 /* Focus accessibility */
 input:focus,
 textarea:focus,
 select:focus,
 button:focus {
-  outline: none; /* remove default; provide visible focus ring below */
+  outline: none;
 }
 
 input:focus-visible,
 textarea:focus-visible,
-select:focus-visible,
-button:focus-visible {
+select:focus-visible {
   box-shadow: 0 0 0 3px var(--input-focus-shadow);
   border-color: var(--input-focus-border);
   border-width: 2px;
 }
 
-/* Button focus */
 button:focus-visible {
   box-shadow: 0 0 0 3px var(--button-focus-shadow);
   border-color: var(--button-focus-border);
@@ -302,11 +307,6 @@ a:link {
 
 a:visited {
   color: var(--link-visited-color);
-}
-
-/* Small/utility tweaks */
-input[type="text"], button {
-  color: var(--text-dark);
 }
 
 /* Minor transitions for smooth UI */
