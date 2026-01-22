@@ -35,8 +35,8 @@
   --button-active-bg: rgba(11, 27, 1, 0.1);
   
   /* Link colors */
-  --link-color: #0066cc;
-  --link-visited-color: #800080;
+  --link-color: #091406;
+  --link-visited-color: #4e8240;
   
   /* Form elements */
   --input-bg: #fff;
@@ -78,8 +78,8 @@
   --button-active-bg: rgba(255, 255, 255, 0.2);
   
   /* Link colors */
-  --link-color: #4da6ff;
-  --link-visited-color: #cc99ff;
+  --link-color: #32cb49;
+  --link-visited-color: #75c18c;
   
   /* Form elements */
   --input-bg: #333;
@@ -148,7 +148,6 @@ select {
   cursor: pointer;
   color: var(--text-dark);
   background-color: var(--panel-bg);
-  padding: 5px;
   margin: 0;
   border-radius: var(--radius);
   transition: background-color 160ms ease, color 160ms ease;
@@ -163,8 +162,8 @@ select {
 /* Corrected: apply to selectable anchors in both link and visited states.
    If .selectable is applied to anchors, use :link/:visited; if it's a class on non-anchors,
    remove the pseudo-classes and keep ".selectable" as needed. */
-.selectable:link,
-.selectable:visited {
+/*.selectable:link,*/
+.link:visited {
   background-color: var(--panel-bg-alt);
   color: var(--text-dark);
 }
