@@ -207,7 +207,7 @@ button {
 /* Tables: don't use margin on tr (it doesn't work). Use border-spacing instead. */
 table {
   border-collapse: separate;
-  border-spacing: 0 0.6em; /* vertical spacing between rows */
+  border-spacing: 0.2em 0.3em; /* vertical spacing between rows */
 }
 
 tr {
