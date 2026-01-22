@@ -1,153 +1,229 @@
-/* Application-wide Styles */
+/* Application-wide Styles (revised)
+   - Uses CSS variables for colors/spacing
+   - Responsive form controls (width:100% with reasonable max-width)
+   - Accessibility: :focus-visible, clearer contrasts, keyboard focus rings
+   - Bug fixes: tr margin removed, corrected .selectable visited/link selector
+*/
 
-/* everywhere else */
-* {
+/* Color and spacing tokens */
+:root{
+  --bg: #f6f8f6;
+  --panel-bg: #d7e6dc;
+  --panel-bg-alt: #d9dfd7;
+  --accent-1: rgb(22,92,51);
+  --accent-2: rgb(29,116,12);
+  --accent-3: rgb(25,99,35);
+  --text-dark: rgb(13,49,11);
+  --muted-text: rgb(33,48,40);
+  --focus: rgba(11,27,1,0.2);
+  --radius: 5px;
+  --control-max-width: 320px;
+  --gap: 0.5em;
+}
+
+/* Make box-sizing predictable and set base font */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
 
+html, body {
+  height: 100%;
+}
 
 body {
   margin: 1em;
-  background-color: rgb(246, 248, 246);
+  background-color: var(--bg);
+  color: var(--text-dark);
 }
 
+/* Headings */
 h1 {
-  color: rgb(22, 92, 51);
+  color: var(--accent-1);
   font-size: 150%;
 }
 
 h2 {
-  color: rgb(29, 116, 12);
-  font-weight: lighter;
+  color: var(--accent-2);
+  font-weight: 300;
   font-size: 120%;
 }
 
 h3 {
-  color: rgb(25, 99, 35);
-  font-weight: lighter;
+  color: var(--accent-3);
+  font-weight: 300;
   font-size: 110%;
   margin-block-end: 0;
 }
 
-input[type="text"], button {
-  color: rgb(13, 49, 11);
+/* Controls */
+input[type="text"],
+button,
+textarea,
+select {
+  color: var(--text-dark);
+  font: inherit;
 }
 
+/* Selectable elements (e.g. anchor or clickable div) */
 .selectable {
   cursor: pointer;
-  color: rgb(10, 10, 9);
-  background-color: #d7e6dc;
+  color: rgb(10,10,9);
+  background-color: var(--panel-bg);
   padding: 5px;
-  margin: 0px;
-  border-radius: 5px;
+  margin: 0;
+  border-radius: var(--radius);
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
+/* Hover state */
 .selectable:hover {
   color: #131a13;
   background-color: rgb(196, 209, 187);
 }
 
-.selectable.visited, a:link {
-  background-color: #d9dfd7;
+/* Corrected: apply to selectable anchors in both link and visited states.
+   If .selectable is applied to anchors, use :link/:visited; if it's a class on non-anchors,
+   remove the pseudo-classes and keep ".selectable" as needed. */
+.selectable:link,
+.selectable:visited {
+  background-color: var(--panel-bg-alt);
   color: rgb(10, 10, 9);
 }
 
+/* Active / pressed state */
 .selectable:active {
   background-color: #707a6f;
-  color:
-    rgb(33, 48, 40);
+  color: var(--muted-text);
 }
 
-
+/* Generic panel/detail style */
 .detail {
-  background-color: #d7e6dc;
+  background-color: var(--panel-bg);
+  padding: 0.5em;
+  border-radius: var(--radius);
 }
 
-.auth {   /* Authorities */
+/* Authorities, smaller text */
+.auth {
   font-size: 80%;
 }
 
-
+/* Buttons */
 button {
-  /* This extra margin represent roughly the same space as the space
-     between the labels and their text fields */
   margin-left: .5em;
   margin-bottom: 2px;
-  border-radius: 5px;
+  border-radius: var(--radius);
   width: 180px;
   font-size: large;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid #999;
+  padding: 0.5em 0.75em;
 }
 
+/* Helper class for aligning buttons; prefer using utility or grid in the future */
 .button {
-  /* Align buttons with the text fields */
   padding-left: 30px;
   float: right;
-  /* same size as the label elements */
 }
 
-tr{
-  margin-top: 20px;
-  background-color: #d7e6dc;
+/* Tables: don't use margin on tr (it doesn't work). Use border-spacing instead. */
+table {
+  border-collapse: separate;
+  border-spacing: 0 0.6em; /* vertical spacing between rows */
 }
 
+tr {
+  background-color: var(--panel-bg);
+}
+
+/* Forms */
 form {
-  /* Set form on left of the page */
   margin: 0;
-  width: 200px;
-  /* Form outline */
+  width: 100%;
+  max-width: var(--control-max-width); /* keeps form narrow but responsive */
   padding: 1em;
   border: 1px solid #CCC;
-  border-radius: 5px;
+  border-radius: var(--radius);
+  background: transparent;
 }
 
-
-
+/* List reset */
 ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-form li+li {
+form li + li {
   margin-top: 1em;
 }
 
+/* Labels and controls: use a responsive two-column layout when space allows */
+.form-row {
+  display: flex;
+  gap: var(--gap);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+/* Label sizing: allow labels to shrink on small screens */
 label {
-  /* Uniform size & alignment */
   display: inline-block;
   width: 180px;
+  min-width: 120px;
   text-align: left;
   padding-bottom: 5px;
 }
 
+/* Inputs scale to available width */
 input,
-textarea, select {
-  /* To make sure that all text fields have the same font settings
-     By default, textareas have a monospace font */
-
-  /* Uniform text field size */
-  width: 180px;
-  box-sizing: border-box;
-
-  /* Match form field borders */
+textarea,
+select {
+  width: calc(100% - 0px);
+  max-width: 100%;
   border: 1px solid #999;
+  padding: 0.35em 0.4em;
+  border-radius: 3px;
 }
 
-
+/* Focus accessibility */
 input:focus,
-textarea:focus {
-  /* Additional highlight for focused elements */
+textarea:focus,
+select:focus,
+button:focus {
+  outline: none; /* remove default; provide visible focus ring below */
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  box-shadow: 0 0 0 3px var(--focus);
   border-color: rgb(11, 27, 1);
+  border-width: 2px;
 }
 
-
-
+/* Textareas */
 textarea {
-  /* Align multiline text fields with their labels */
   vertical-align: top;
-
-  /* Provide space to type some text */
   height: 5em;
+  resize: vertical;
 }
 
+/* Small/utility tweaks */
+input[type="text"], button {
+  color: var(--text-dark);
+}
 
+/* Visited link style (global anchors) left alone; only override if desired:
+a:link { color: ... }
+a:visited { color: ... } */
+
+/* Minor transitions for smooth UI */
+button, .selectable {
+  transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+}
