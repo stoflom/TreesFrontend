@@ -159,12 +159,6 @@ select {
   background-color: var(--hover-bg);
 }
 
-/* Visited links should standout */
-.link:visited {
-  background-color: var(--panel-bg-alt);
-  color: var(--text-dark);
-}
-
 /* Active / pressed state */
 .selectable:active {
   background-color: var(--active-bg);
