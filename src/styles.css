@@ -1,12 +1,14 @@
-/* Application-wide Styles (revised)
-   - Uses CSS variables for colors/spacing
+/* Application-wide Styles (themed)
+   - Uses CSS variables for all colors/spacing
    - Responsive form controls (width:100% with reasonable max-width)
    - Accessibility: :focus-visible, clearer contrasts, keyboard focus rings
    - Bug fixes: tr margin removed, corrected .selectable visited/link selector
+   - Full theming support (light/dark)
 */
 
 /* Color and spacing tokens */
-:root{
+:root {
+  /* Light theme colors */
   --bg: #f6f8f6;
   --panel-bg: #d7e6dc;
   --panel-bg-alt: #d9dfd7;
@@ -19,6 +21,79 @@
   --radius: 5px;
   --control-max-width: 320px;
   --gap: 0.5em;
+  
+  /* Additional color variables */
+  --hover-bg: rgb(196, 209, 187);
+  --hover-text: #131a13;
+  --active-bg: #707a6f;
+  --active-text: var(--muted-text);
+  --border-color: #999;
+  --button-border: #999;
+  --button-text: var(--text-dark);
+  --button-bg: transparent;
+  --button-hover-bg: rgba(11, 27, 1, 0.05);
+  --button-active-bg: rgba(11, 27, 1, 0.1);
+  
+  /* Link colors */
+  --link-color: #0066cc;
+  --link-visited-color: #800080;
+  
+  /* Form elements */
+  --input-bg: #fff;
+  --input-border: var(--border-color);
+  --input-focus-border: var(--accent-1);
+  --input-focus-shadow: var(--focus);
+  
+  /* Button focus */
+  --button-focus-shadow: var(--focus);
+  --button-focus-border: var(--accent-1);
+  
+  /* Table */
+  --table-row-bg: var(--panel-bg);
+  --table-row-hover-bg: rgba(11, 27, 1, 0.05);
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --bg: #1a1a1a;
+  --panel-bg: #2d2d2d;
+  --panel-bg-alt: #333;
+  --accent-1: #4caf50;
+  --accent-2: #8bc34a;
+  --accent-3: #a5d6a7;
+  --text-dark: #ffffff;
+  --muted-text: #cccccc;
+  --focus: rgba(255, 255, 255, 0.2);
+  
+  /* Additional dark theme colors */
+  --hover-bg: #444;
+  --hover-text: #fff;
+  --active-bg: #555;
+  --active-text: #ccc;
+  --border-color: #555;
+  --button-border: #555;
+  --button-text: #fff;
+  --button-bg: transparent;
+  --button-hover-bg: rgba(255, 255, 255, 0.1);
+  --button-active-bg: rgba(255, 255, 255, 0.2);
+  
+  /* Link colors */
+  --link-color: #4da6ff;
+  --link-visited-color: #cc99ff;
+  
+  /* Form elements */
+  --input-bg: #333;
+  --input-border: var(--border-color);
+  --input-focus-border: var(--accent-2);
+  --input-focus-shadow: var(--focus);
+  
+  /* Button focus */
+  --button-focus-shadow: var(--focus);
+  --button-focus-border: var(--accent-2);
+  
+  /* Table */
+  --table-row-bg: var(--panel-bg);
+  --table-row-hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 /* Make box-sizing predictable and set base font */
@@ -37,6 +112,7 @@ body {
   margin: 1em;
   background-color: var(--bg);
   color: var(--text-dark);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Headings */
@@ -70,7 +146,7 @@ select {
 /* Selectable elements (e.g. anchor or clickable div) */
 .selectable {
   cursor: pointer;
-  color: rgb(10,10,9);
+  color: var(--text-dark);
   background-color: var(--panel-bg);
   padding: 5px;
   margin: 0;
@@ -80,8 +156,8 @@ select {
 
 /* Hover state */
 .selectable:hover {
-  color: #131a13;
-  background-color: rgb(196, 209, 187);
+  color: var(--hover-text);
+  background-color: var(--hover-bg);
 }
 
 /* Corrected: apply to selectable anchors in both link and visited states.
@@ -90,13 +166,13 @@ select {
 .selectable:link,
 .selectable:visited {
   background-color: var(--panel-bg-alt);
-  color: rgb(10, 10, 9);
+  color: var(--text-dark);
 }
 
 /* Active / pressed state */
 .selectable:active {
-  background-color: #707a6f;
-  color: var(--muted-text);
+  background-color: var(--active-bg);
+  color: var(--active-text);
 }
 
 /* Generic panel/detail style */
@@ -119,9 +195,11 @@ button {
   width: 180px;
   font-size: large;
   cursor: pointer;
-  background: transparent;
-  border: 1px solid #999;
+  background: var(--button-bg);
+  border: 1px solid var(--button-border);
   padding: 0.5em 0.75em;
+  color: var(--button-text);
+  transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
 }
 
 /* Helper class for aligning buttons; prefer using utility or grid in the future */
@@ -137,7 +215,11 @@ table {
 }
 
 tr {
-  background-color: var(--panel-bg);
+  background-color: var(--table-row-bg);
+}
+
+tr:hover {
+  background-color: var(--table-row-hover-bg);
 }
 
 /* Forms */
@@ -146,7 +228,7 @@ form {
   width: 100%;
   max-width: var(--control-max-width); /* keeps form narrow but responsive */
   padding: 1em;
-  border: 1px solid #CCC;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius);
   background: transparent;
 }
@@ -185,9 +267,11 @@ textarea,
 select {
   width: calc(100% - 0px);
   max-width: 100%;
-  border: 1px solid #999;
+  border: 1px solid var(--input-border);
   padding: 0.35em 0.4em;
   border-radius: 3px;
+  background-color: var(--input-bg);
+  color: var(--text-dark);
 }
 
 /* Focus accessibility */
@@ -202,8 +286,15 @@ input:focus-visible,
 textarea:focus-visible,
 select:focus-visible,
 button:focus-visible {
-  box-shadow: 0 0 0 3px var(--focus);
-  border-color: rgb(11, 27, 1);
+  box-shadow: 0 0 0 3px var(--input-focus-shadow);
+  border-color: var(--input-focus-border);
+  border-width: 2px;
+}
+
+/* Button focus */
+button:focus-visible {
+  box-shadow: 0 0 0 3px var(--button-focus-shadow);
+  border-color: var(--button-focus-border);
   border-width: 2px;
 }
 
@@ -214,14 +305,19 @@ textarea {
   resize: vertical;
 }
 
+/* Links */
+a:link {
+  color: var(--link-color);
+}
+
+a:visited {
+  color: var(--link-visited-color);
+}
+
 /* Small/utility tweaks */
 input[type="text"], button {
   color: var(--text-dark);
 }
-
-/* Visited link style (global anchors) left alone; only override if desired:
-a:link { color: ... }
-a:visited { color: ... } */
 
 /* Minor transitions for smooth UI */
 button, .selectable {
