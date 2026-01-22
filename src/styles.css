@@ -36,7 +36,7 @@
   
   /* Link colors */
   --link-color: #091406;
-  --link-visited-color: #4e8240;
+  --link-visited-color: #365b2c;
   
   /* Form elements */
   --input-bg: #fff;
@@ -159,10 +159,7 @@ select {
   background-color: var(--hover-bg);
 }
 
-/* Corrected: apply to selectable anchors in both link and visited states.
-   If .selectable is applied to anchors, use :link/:visited; if it's a class on non-anchors,
-   remove the pseudo-classes and keep ".selectable" as needed. */
-/*.selectable:link,*/
+/* Visited links should standout */
 .link:visited {
   background-color: var(--panel-bg-alt);
   color: var(--text-dark);
