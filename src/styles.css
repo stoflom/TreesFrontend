@@ -180,12 +180,12 @@ button {
   margin-left: .5em;
   margin-bottom: 2px;
   border-radius: var(--radius);
-  width: 180px;
+  width: 162px; /* 180px - 10% */
   font-size: large;
   cursor: pointer;
   background: var(--button-bg);
   border: 1px solid var(--button-border);
-  padding: 0.5em 0.75em;
+  padding: 0.3em 0.5em; /* Even more compact button height */
   color: var(--button-text);
   transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
 }
@@ -214,7 +214,7 @@ tr:hover {
 form {
   margin: 0;
   width: 100%;
-  max-width: var(--control-max-width); /* keeps form narrow but responsive */
+  max-width: calc(var(--control-max-width) * 0.8); /* 20% narrower */
   padding: 1em;
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
@@ -243,7 +243,7 @@ form li + li {
 /* Label sizing: allow labels to shrink on small screens */
 label {
   display: inline-block;
-  width: 180px;
+  flex: 1 0 120px;
   min-width: 120px;
   text-align: left;
   padding-bottom: 5px;
@@ -260,6 +260,8 @@ select {
   border-radius: 3px;
   background-color: var(--input-bg);
   color: var(--text-dark);
+  /* Make inputs 20% narrower */
+  min-width: 160px; /* 200px * 0.8 */
 }
 
 /* Disabled state for accessibility */
