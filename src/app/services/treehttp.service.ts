@@ -177,6 +177,24 @@ export class TreehttpService {
     );
   }
 
+   // Get Family by regex name, returns array, return 'undefined' when not found
+   findFamilyByRegexName(familyName: string): Observable<IFamilyDocument[]> {
+     if (!familyName.trim()) {
+       // if not search term, return empty array.
+       return of([]);
+     }
+     const encodedfname = this.customEncodeURIComponent(familyName);
+     const url = `${this.SATreesUrl}/family/regex/${encodedfname}`;
+     return this.http.get<IFamilyDocument[]>(url).pipe(
+       tap((x) =>
+           x.length
+             ? this.log(`Found ${x.length} Families matching "${familyName}"`)
+             : this.log(`No Families match "${familyName }"`)
+         ),
+       catchError(this.handleError<IFamilyDocument[]>(`Family name=${familyName}`))
+     );
+   }
+
   private customEncodeURIComponent(str: string): string {
     // Escape '?' 
     return str.replace(/\?/g, '%3F');

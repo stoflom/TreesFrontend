@@ -23,7 +23,7 @@ export class SearchEditorComponent implements OnInit {
         searchterm: 'wood†?$',
         group: '1',
         genus: 'Alb.*',
-        family: 'Mimosaceae'
+        family: '.*ace.*'
     };
 
     ngOnInit(): void {
@@ -107,7 +107,7 @@ export class SearchEditorComponent implements OnInit {
         const fam = this.searchfamilyFG.value.family;
         this.searchparams.family = fam;
         this.persistService.persist(this.searchparams);
-        this.router.navigate(['/family', fam]);
+        this.router.navigate(['/family_regex', fam]);
     };
 
 }

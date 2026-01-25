@@ -3,6 +3,7 @@ import { TreesComponent } from './trees/trees.component';
 import { GenusComponent } from './genus/genus.component';
 import { GeneraComponent } from './genera/genera.component';
 import { FamilyComponent } from './family/family.component';
+import { FamiliesComponent } from './families/families.component';
 import { TreeDetailComponent } from './tree-detail/tree-detail.component';
 import { SearchEditorComponent } from './search-editor/search-editor.component';
 
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: 'genus/:name', component: GenusComponent },
   { path: 'genus_regex/:name', component: GeneraComponent },
   { path: 'family/:name', component: FamilyComponent },
+  { path: 'family_regex/:name', component: FamiliesComponent },
   { path: '', redirectTo: 'search', pathMatch: 'full' }             //Default route,run on startup
 
 ];
