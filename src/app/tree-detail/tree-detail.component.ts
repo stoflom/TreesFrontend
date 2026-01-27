@@ -5,6 +5,7 @@ import { TreehttpService } from '../services/treehttp.service';
 
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommaSpacePipe } from '../pipes/commaspace';
+import { Vegetation } from '../vegetation/vegetation';
 
 
 
@@ -12,7 +13,8 @@ import { CommaSpacePipe } from '../pipes/commaspace';
     selector: 'app-tree-detail',
     imports: [
     RouterModule,
-    CommaSpacePipe
+    CommaSpacePipe,
+    Vegetation
 ],
     templateUrl: './tree-detail.component.html',
     styleUrl: './tree-detail.component.css'
@@ -23,6 +25,7 @@ export class TreeDetailComponent implements OnInit {
     private location = inject(Location);
 
     atree: ITreeDocument = {} as ITreeDocument;   //definite assignment
+    showVegetation: boolean = false;
 
     ngOnInit(): void {
         this.getTree()
@@ -36,6 +39,10 @@ export class TreeDetailComponent implements OnInit {
 
     goBack(): void {
         this.location.back();
+    }
+
+    toggleVegetation(): void {
+        this.showVegetation = !this.showVegetation;
     }
 
 }

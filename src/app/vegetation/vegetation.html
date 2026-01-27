@@ -1,0 +1,14 @@
+<div class="vegetation-container">
+  <h4>Vegetation Details</h4>
+  @if (vegtypes && vegtypes.length > 0) {
+    <div class="vegetation-list">
+      @for (vegtype of vegtypes; track vegtype) {
+        <div class="vegetation-item">
+          <span class="vegetation-type">{{ vegtype }}</span>
+        </div>
+      }
+    </div>
+  } @else {
+    <p>No vegetation types available.</p>
+  }
+</div>

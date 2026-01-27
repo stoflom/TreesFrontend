@@ -96,10 +96,13 @@
       </p>
       @if (atree.vegtypes) {
         <span>
-          <h3>
+          <h3 class="clickable" (click)="toggleVegetation()">
             Vegetation types: {{ atree.vegtypes | commaSpace }}
           </h3>
         </span>
+      }
+      @if (showVegetation) {
+        <app-vegetation [vegtypes]="atree.vegtypes"></app-vegetation>
       }
       @if (atree.hyperlinks) {
         <span>
