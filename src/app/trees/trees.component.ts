@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ITreeDocument } from '../interfaces/tree';
 import { TreehttpService } from '../services/treehttp.service';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 
@@ -18,6 +18,7 @@ export class TreesComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private treehttpService = inject(TreehttpService);
   private location = inject(Location);
+  private router = inject(Router);
 
 
   selectedTree: ITreeDocument = {} as ITreeDocument; //definite assignment  
@@ -46,17 +47,23 @@ export class TreesComponent implements OnInit {
         } else {
           this.location.back();
         }
-
     }
+  }
 
-
+  private FallThroughToDetail(trees: ITreeDocument[]): ITreeDocument[] {
+    // Redirect to tree detail page if exactly one tree is found
+    if (trees.length === 1) {
+      this.router.navigate(['/detail', trees[0].id]);
+      return []
+    } else
+      return trees
   }
 
 
   GetTreesByGenusSpecies(treesGenus: string, treesSpecies: string): void {
     this.treehttpService
       .findTreesByGenusSpecies(treesGenus, treesSpecies)
-      .subscribe((response: ITreeDocument[]) => { this.trees = response });
+      .subscribe((response: ITreeDocument[]) => { this.trees = this.FallThroughToDetail(response); });
   }
 
   getTreesByLanguageNameregex(language: string, nameregex: string): void {
@@ -65,14 +72,14 @@ export class TreesComponent implements OnInit {
 
     this.treehttpService
       .findTreesByCommonNameLanguage(language, nameregex)
-      .subscribe((response: ITreeDocument[]) => { this.trees = response });
+      .subscribe((response: ITreeDocument[]) => { this.trees = this.FallThroughToDetail(response); });
 
   }
 
   getTreesByGroup(group: string): void {
     this.treehttpService
       .findTreesByGroup(group)
-      .subscribe((response: ITreeDocument[]) => { this.trees = response });
+      .subscribe((response: ITreeDocument[]) => { this.trees = this.FallThroughToDetail(response); });
   }
 
 
