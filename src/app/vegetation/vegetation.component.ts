@@ -7,8 +7,8 @@ import { IVegetationDocument } from '../interfaces/vegetation';
 @Component({
   selector: 'app-vegetation',
   imports: [RouterModule],
-  templateUrl: './vegetation.html',
-  styleUrl: './vegetation.css',
+  templateUrl: './vegetation.component.html',
+  styleUrl: './vegetation.component.css',
 })
 export class Vegetation implements OnInit {
   private route = inject(ActivatedRoute);

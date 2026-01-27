@@ -6,7 +6,7 @@ import { FamilyComponent } from './family/family.component';
 import { FamiliesComponent } from './families/families.component';
 import { TreeDetailComponent } from './tree-detail/tree-detail.component';
 import { SearchEditorComponent } from './search-editor/search-editor.component';
-import { Vegetation } from './vegetation/vegetation';
+import { Vegetation } from './vegetation/vegetation.component';
 
 export const routes: Routes = [
   //Order is important here, first match wins.
