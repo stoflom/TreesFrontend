@@ -5,7 +5,7 @@
         <i>{{ avegetation.name }} </i> ({{ avegetation.abbreviation }})
       </h2>
         <div>
-          <p>{{ avegetation.description }}</p>
+          <p [innerHTML]="avegetation.description"></p>
         </div>
     </div>
   }

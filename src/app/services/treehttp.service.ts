@@ -42,6 +42,30 @@ export class TreehttpService {
     );
   }
 
+  // Get trees by genus and species, return 'undefined' when id not found
+  findTreesByGenusSpecies(treesGenus: string, treesSpecies: string): Observable<ITreeDocument[]> {
+     if (! (treesGenus.trim() && treesSpecies.trim()) ) {
+      // if not search term, return empty array.
+      return of([]);
+    }
+    //Should do add parameter here to ensure url encoding
+    const url = `${this.SATreesUrl}/treegs/${treesGenus}/${treesSpecies}`;
+    return this.http.get<ITreeDocument[]>(url).pipe(
+      tap((x) =>
+        x.length
+          ? this.log(`Found ${x.length} trees matching "${treesGenus} ${treesSpecies}"`)
+          : this.log(`No trees match "${treesGenus}" "${treesSpecies}"`)
+      ),
+      catchError(
+        this.handleError<ITreeDocument[]>(
+          `ERROR Tree genus query: ${treesGenus} ${treesSpecies}`, []
+        )
+      )
+    );
+  }
+
+
+
   //Get all trees belonging to specified genus (only _Id, Identity)
   //This is exact match and not regex
   findTreesByGenus(treesGenus: string): Observable<ITreeDocument[]> {

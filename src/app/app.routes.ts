@@ -19,6 +19,7 @@ export const routes: Routes = [
   { path: 'family/:name', component: FamilyComponent },
   { path: 'family_regex/:name', component: FamiliesComponent },
   { path: 'vegetation/:abbreviation', component: Vegetation },
+  { path: 'treegs/:genus/:species', component: TreesComponent },
   { path: '', redirectTo: 'search', pathMatch: 'full' }             //Default route,run on startup
 
 ];

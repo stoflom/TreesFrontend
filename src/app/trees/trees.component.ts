@@ -7,12 +7,12 @@ import { Location } from '@angular/common';
 
 
 @Component({
-    selector: 'app-trees',
-    imports: [
+  selector: 'app-trees',
+  imports: [
     RouterModule
-],
-    templateUrl: './trees.component.html',
-    styleUrl: './trees.component.css'
+  ],
+  templateUrl: './trees.component.html',
+  styleUrl: './trees.component.css'
 })
 export class TreesComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -23,12 +23,16 @@ export class TreesComponent implements OnInit {
   selectedTree: ITreeDocument = {} as ITreeDocument; //definite assignment  
   trees: ITreeDocument[] = {} as ITreeDocument[];   //definite assignment
 
- 
+
   ngOnInit() {
 
     const language: string = this.route.snapshot.paramMap.get('language') as string;
     const nameregex: string = this.route.snapshot.paramMap.get('nameregex') as string;
     const group: string = this.route.snapshot.paramMap.get('group') as string;
+    const treesGenus: string = this.route.snapshot.paramMap.get('genus') as string;
+    const treesSpecies: string = this.route.snapshot.paramMap.get('species') as string;
+
+
     //must check for good query strings here
 
     if (language && nameregex) {
@@ -36,13 +40,24 @@ export class TreesComponent implements OnInit {
     } else {
       if (group) {
         this.getTreesByGroup(group);
-      } else {
-        this.location.back();
-      }
+      } else
+        if (treesGenus && treesSpecies) {
+          this.GetTreesByGenusSpecies(treesGenus, treesSpecies);
+        } else {
+          this.location.back();
+        }
 
     }
+
+
   }
 
+
+  GetTreesByGenusSpecies(treesGenus: string, treesSpecies: string): void {
+    this.treehttpService
+      .findTreesByGenusSpecies(treesGenus, treesSpecies)
+      .subscribe((response: ITreeDocument[]) => { this.trees = response });
+  }
 
   getTreesByLanguageNameregex(language: string, nameregex: string): void {
 
