@@ -2,22 +2,15 @@
   @if (avegetation) {
     <div>
       <h2 class="detail"> Vegetation Type:
-        <i>{{ avegetation.name }}</i>
+        <i>{{ avegetation.name }} </i> ({{ avegetation.abbreviation }})
       </h2>
-      @if (avegetation.abbreviation) {
         <div>
-          <h3>Abbreviation: {{ avegetation.abbreviation }} </h3>
-        </div>
-      }
-      @if (avegetation.description) {
-        <div> <h3>Description:</h3>
           <p>{{ avegetation.description }}</p>
         </div>
-      }
     </div>
   }
 
-  <br><br><br>
+  <br><br>
   <div>
     <button (click)="goBack()" class="selectable">Go back</button> or
     <a routerLink="/search" class="selectable"> Search Again </a>
