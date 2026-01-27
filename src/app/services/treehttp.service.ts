@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { ITreeDocument } from '../interfaces/tree';
 import { IGenusDocument } from '../interfaces/genus';
 import { IFamilyDocument } from '../interfaces/family';
+import { IVegetationDocument } from '../interfaces/vegetation';
 import { MessageService } from './message.service';
 
 @Injectable({
@@ -162,6 +163,18 @@ export class TreehttpService {
             : this.log(`No Genera match "${genusName }"`)
         ),
       catchError(this.handleError<IGenusDocument[]>(`Genus name=${genusName}`))
+    );
+  }
+
+  // Get Vegetation by abbreviation, return 'undefined' when not found
+  findVegetationByAbbreviation(vegAbbrev: string): Observable<IVegetationDocument> {
+    const url = `${this.SATreesUrl}/vegetation/abbreviation/${vegAbbrev}`;
+    return this.http.get<IVegetationDocument>(url).pipe(
+      tap((h) => {
+        const outcome = h ? `fetched` : `did not find`;
+        this.log(`Fetching vegetation by abbreviation: ${vegAbbrev}: ${outcome}`);
+      }),
+      catchError(this.handleError<IVegetationDocument>(`Vegetation abbreviation=${vegAbbrev}`))
     );
   }
 

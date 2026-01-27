@@ -1,14 +1,25 @@
 <div class="vegetation-container">
-  <h4>Vegetation Details</h4>
-  @if (vegtypes && vegtypes.length > 0) {
-    <div class="vegetation-list">
-      @for (vegtype of vegtypes; track vegtype) {
-        <div class="vegetation-item">
-          <span class="vegetation-type">{{ vegtype }}</span>
+  @if (avegetation) {
+    <div>
+      <h2 class="detail">
+        <i>{{ avegetation.name }}</i>
+      </h2>
+      @if (avegetation.abbreviation) {
+        <div>
+          <strong>Abbreviation:</strong> {{ avegetation.abbreviation }}
+        </div>
+      }
+      @if (avegetation.description) {
+        <div>
+          <p>{{ avegetation.description }}</p>
         </div>
       }
     </div>
-  } @else {
-    <p>No vegetation types available.</p>
   }
+
+  <br><br><br>
+  <div>
+    <button (click)="goBack()" class="selectable">Go back</button> or
+    <a routerLink="/search" class="selectable"> Search Again </a>
+  </div>
 </div>

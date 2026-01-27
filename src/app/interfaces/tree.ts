@@ -1,4 +1,5 @@
 import { IComment, ICNames, ICHyperlink } from '../interfaces/common'
+import { IVegetationDocument } from '../interfaces/vegetation'
 
 export interface ITreeGenus {
     name: string;
@@ -30,7 +31,7 @@ export interface ITree {
     Znumber?: string;
     synonyms?: ISynonym[];
     cnames?: ICNames[];
-    vegtypes?: string[];
+    vegtypes?: IVegetationDocument[];
     group?: string[];
     hyperlinks?: ICHyperlink[];
 }
