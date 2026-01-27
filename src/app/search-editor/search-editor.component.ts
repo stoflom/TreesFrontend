@@ -16,47 +16,50 @@ export class SearchEditorComponent implements OnInit {
     private router = inject(Router);
     private persistService = inject(PersistService);
     private messageService = inject(MessageService);
-;
 
     public searchparams = {  //These are initial-initial values, will be refreshed from persistence
         language: 'Eng',
-        searchterm: 'wood†?$',
+        searchterm: 'wood†?$',  //ends with 'wood' or 'wood†'
         group: '1',
-        genus: 'Alb.*',
-        family: '.*ace.*'
+        genus: '^A',  //starts with A'
+        family: 'ceae$'  //ends with 'ceae'
     };
 
     ngOnInit(): void {
+        this.getsearchparams();
+        //Seems that this is called after the form has been pre-constructed so the
+        this.reset();
+    }
+
+
+    private getsearchparams(): void {
 
         const obj: object | null = this.persistService.retrieve();
 
         if (obj != null && typeof obj === typeof this.searchparams) {
-            // console.warn(this.persistService.retrieve());
-
             this.searchparams = obj as typeof this.searchparams;
+        }
+    }
 
+    private reset(): void {
+        //  initial values never feature unless the form is reset!
+        this.searchlnregexFG.reset({
+            language: this.searchparams.language,
+            searchterm: this.searchparams.searchterm
+        });
 
-            //Seems that this is called after the form has been pre-constructed so the
-            //  initial values never feature unless the form is reset!
-            this.searchlnregexFG.reset({
-                language: this.searchparams.language,
-                searchterm: this.searchparams.searchterm
-            });
+        this.searchgroupFG.reset({
+            group: this.searchparams.group
+        });
 
-            this.searchgroupFG.reset({
-                group: this.searchparams.group
-            });
+        this.searchgenusFG.reset({
+            genus: this.searchparams.genus
+        });
 
-            this.searchgenusFG.reset({
-                genus: this.searchparams.genus
-            });
-
-            this.searchfamilyFG.reset({
-                family: this.searchparams.family
-            });
-        } 
-
-    };
+        this.searchfamilyFG.reset({
+            family: this.searchparams.family
+        });
+    }
 
     public searchlnregexFG = new UntypedFormGroup({
         language: new UntypedFormControl(this.searchparams.language),
