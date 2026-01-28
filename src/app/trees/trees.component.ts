@@ -82,9 +82,4 @@ export class TreesComponent implements OnInit {
       .subscribe((response: ITreeDocument[]) => { this.trees = this.FallThroughToDetail(response); });
   }
 
-
-
-  goBack(): void {
-    this.location.back();
-  }
 }

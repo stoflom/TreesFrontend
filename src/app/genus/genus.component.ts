@@ -30,7 +30,7 @@ export class GenusComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGenus();
-    this.getSpecies();
+      this.getSpecies();
   }
 
   getGenus(): void {
@@ -39,13 +39,8 @@ export class GenusComponent implements OnInit {
   }
 
   getSpecies(): void {
-    this.treehttpService.findTreesByGenus(this.agenus.name)
+    this.treehttpService.findTreesByGenus(this.genusnameparam)
       .subscribe(species => this.treespecies = species);
-
   }
-
-  goBack(): void {
-    this.location.back();
-  }
-
+ 
 }

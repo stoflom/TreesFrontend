@@ -28,7 +28,4 @@ export class Vegetation implements OnInit {
       .subscribe((vegetation) => (this.avegetation = vegetation));
   }
 
-  goBack(): void {
-    this.location.back();
-  }
 }

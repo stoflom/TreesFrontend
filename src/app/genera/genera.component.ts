@@ -26,14 +26,8 @@ export class GeneraComponent implements OnInit {
   ngOnInit() {
 
     const genusregex: string = this.route.snapshot.paramMap.get('name') as string;
-    
-    //must check for good query strings here
-
-    if (genusregex) {
-      this.getGenaByNameRegex(genusregex);
-    } else {
-      this.location.back();
-    }
+    this.getGenaByNameRegex(genusregex);
+   
   }
 
 
@@ -52,8 +46,5 @@ export class GeneraComponent implements OnInit {
   
   }
 
-  goBack(): void {
-    this.location.back();
-  }
 }
 

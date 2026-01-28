@@ -1,134 +1,131 @@
 @if (atree) {
+<div>
+  <h2 class="detail">
+    <a routerLink="/genus/{{ atree.genus.name }}" class="selectable">
+      <i> {{ atree.genus.name }} </i> </a>
+    <i>{{ atree.species.name }} </i>
+    @if (atree.species.authority) {
+    <span class="auth">
+      {{atree.species.authority}}
+    </span>
+    }
+    @if (atree.subspecies) {
+    <span>
+      subsp. <i>{{atree.subspecies.name}} </i>
+    </span>
+    @if (atree.subspecies.authority) {
+    <span class="auth">
+      {{atree.subspecies.authority}}
+    </span>
+    }}
+    @if (atree.variety) {
+    <span>
+      var.<i> {{atree.variety.name}} </i>
+    </span>
+    @if (atree.variety.authority) {
+    <span class="auth">
+      {{atree.variety.authority}}
+    </span>
+    }} &nbsp;&nbsp;
+    {{ atree.FSAnumber }} {{ atree.Znumber }}
+    @if (atree.group) {
+    <span> &nbsp;&nbsp; Group {{ atree.group }}</span>
+    }
+  </h2>
+  @if (atree.comments) {
   <div>
-    <h2 class="detail">
-      <a routerLink="/genus/{{ atree.genus.name }}" class="selectable">
-        <i> {{ atree.genus.name }}  </i> </a>
-        <i>{{ atree.species.name }} </i>
-        @if (atree.species.authority) {
-          <span class="auth">
-            {{atree.species.authority}}
-          </span>
-        }
-        @if (atree.subspecies) {
-          <span>
-            subsp. <i>{{atree.subspecies.name}}  </i>
-          </span>
-        }
-        @if (atree.subspecies?.authority) {
-          <span class="auth">
-            {{atree.subspecies?.authority}}
-          </span>
-        }
-        @if (atree.variety) {
-          <span>
-            var.<i> {{atree.variety.name}} </i>
-          </span>
-        }
-        @if (atree.variety?.authority) {
-          <span class="auth">
-            {{atree.variety?.authority}}
-          </span>
-          } &nbsp;&nbsp;
-          {{ atree.FSAnumber }} {{ atree.Znumber }}
-          @if (atree.group) {
-            <span> &nbsp;&nbsp; Group {{ atree.group }}</span>
-          }
-        </h2>
-        @if (atree.comments) {
-          <div>
-            @for (acomment of atree.comments; track acomment) {
-              <div>
-                <p>{{ acomment.text }}</p>
-              </div>
-            }
-          </div>
-        }
-        @if (atree.synonyms) {
-          <span>
-            <h3>
-              Synonyms:
-            </h3>
-            <table style="margin-block-end: 1em;">
-              @for (synonym of atree.synonyms; track synonym) {
-                <tr>
-                  <td> <i>{{ synonym.genus }} {{ synonym.species.name }} </i>
-                  @if (synonym.species.authority) {
-                    <span style="font-size: 80%;">{{ synonym.species.authority}}
-                    </span>
-                  }
-                  @if (synonym.subspecies) {
-                    <span>
-                      subsp. <i>{{synonym.subspecies.name}}</i>
-                      @if (synonym.subspecies.authority) {
-                        <span style="font-size: 80%;">
-                        {{ synonym.subspecies.authority}}</span>
-                      }
-                    </span>
-                  }
-                  @if (synonym.variety) {
-                    <span>
-                      var. <i>{{ synonym.variety.name}} </i>
-                      @if (synonym.variety.authority) {
-                        <span style="font-size: 80%;">
-                        {{ synonym.variety.authority}}</span>
-                      }
-                    </span>
-                  }
-                </td>
-              </tr>
-            }
-          </table>
-        </span>
-      }
-      <h3>
-        Common names:
-      </h3>
-      <table>
-        @for (name of atree.cnames; track name) {
-          <tr>
-            <td>{{ name.language }}</td>
-            <td>{{ name.names | commaSpace }}</td>
-          </tr>
-        }
-      </table>
-      <p style="font-size: 70%;">
-        † Indicates a preferred name.
-      </p>
-      @if (atree.vegtypes) {
-        <span>
-          <h3>
-            Vegetation types:
-            @for (veg of atree.vegtypes; track (veg.abbreviation || veg)) {
-              <a [routerLink]="['/vegetation', (veg.abbreviation || veg)]" class="selectable">
-                {{ veg.abbreviation || veg }}
-              </a>
-              @if (!$last) { <span>, </span> }
-            }
-          </h3>
-        </span>
-      }
-      @if (atree.hyperlinks) {
-        <span>
-          <h3>
-            Hyperlinks:
-          </h3>
-          <table>
-            @for (hlink of atree.hyperlinks; track hlink) {
-              <tr>
-                <td>{{ hlink.language }}</td>
-                <td>
-                  <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
-                </td>
-              </tr>
-            }
-          </table>
-        </span>
-      }
+    @for (acomment of atree.comments; track acomment) {
+    <div>
+      <p>{{ acomment.text }}</p>
     </div>
-  }
-
-  <br><br>
-  <div>
-    <button (click)="goBack()" class="selectable">Go back</button> or
-    <a routerLink="/search" class="selectable"> Search Again </a>
+    }
   </div>
+  }
+  @if (atree.synonyms) {
+  <span>
+    <h3>
+      Synonyms:
+    </h3>
+    <table style="margin-block-end: 1em;">
+      @for (synonym of atree.synonyms; track synonym) {
+      <tr>
+        <td> <i>{{ synonym.genus }} {{ synonym.species.name }} </i>
+          @if (synonym.species.authority) {
+          <span style="font-size: 80%;">{{ synonym.species.authority}}
+          </span>
+          }
+          @if (synonym.subspecies) {
+          <span>
+            subsp. <i>{{synonym.subspecies.name}}</i>
+            @if (synonym.subspecies.authority) {
+            <span style="font-size: 80%;">
+              {{ synonym.subspecies.authority}}</span>
+            }
+          </span>
+          }
+          @if (synonym.variety) {
+          <span>
+            var. <i>{{ synonym.variety.name}} </i>
+            @if (synonym.variety.authority) {
+            <span style="font-size: 80%;">
+              {{ synonym.variety.authority}}</span>
+            }
+          </span>
+          }
+        </td>
+      </tr>
+      }
+    </table>
+  </span>
+  }
+  <h3>
+    Common names:
+  </h3>
+  <table>
+    @for (name of atree.cnames; track name) {
+    <tr>
+      <td>{{ name.language }}</td>
+      <td>{{ name.names | commaSpace }}</td>
+    </tr>
+    }
+  </table>
+  <p style="font-size: 70%;">
+    † Indicates a preferred name.
+  </p>
+  @if (atree.vegtypes) {
+  <span>
+    <h3>
+      Vegetation types:
+      @for (veg of atree.vegtypes; track (veg.abbreviation || veg)) {
+      <a [routerLink]="['/vegetation', (veg.abbreviation || veg)]" class="selectable">
+        {{ veg.abbreviation || veg }}
+      </a>
+      @if (!$last) { <span>, </span> }
+      }
+    </h3>
+  </span>
+  }
+  @if (atree.hyperlinks) {
+  <span>
+    <h3>
+      Hyperlinks:
+    </h3>
+    <table>
+      @for (hlink of atree.hyperlinks; track hlink) {
+      <tr>
+        <td>{{ hlink.language }}</td>
+        <td>
+          <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
+        </td>
+      </tr>
+      }
+    </table>
+  </span>
+  }
+</div>
+}
+
+<br><br>
+<div>
+  <a routerLink="/search" class="selectable"> Search Again </a>
+</div>

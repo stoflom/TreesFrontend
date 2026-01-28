@@ -1,78 +1,76 @@
 @if (agenus) {
-  <div>
-    <h2>Genus:
-      <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span>
-    </h2>
-    <h3>Family:
-      <a routerLink="/family/{{ agenus.family }}" class="selectable">
+<div>
+  <h2>Genus:
+    <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span>
+  </h2>
+  <h3>Family:
+    <a routerLink="/family/{{ agenus.family }}" class="selectable">
       {{ agenus.family }} </a>
-    </h3>
-    @if (agenus.comments) {
-      <div>
-        @for (comment of agenus.comments; track comment) {
-          <div>
-            <p>{{ comment.text }}</p>
-          </div>
-        }
-      </div>
-    }
-    <div>
-      <h3>
-        Common names:
-      </h3>
-      <table>
-        @for (cname of agenus.cnames; track cname) {
-          <tr>
-            <td> {{cname.language}} </td>
-            <td> {{ cname.names | commaSpace}} </td>
-          </tr>
-        }
-      </table>
-    </div>
-    @if (treespecies) {
-      <h3>
-        {{treespecies.length}} local tree specie(s) in genus:
-      </h3>
-      <table>
-        @for (tree of treespecies; track tree) {
-          <tr>
-            <td>
-              <a routerLink="/detail/{{ tree.id }}" class="selectable">
-              {{ tree.identity }} </a>
-            </td>
-            <td>
-              {{ tree.firstname }}
-            </td>
-          </tr>
-        }
-      </table>
-    } @else {
-      <br>
-        <button (click)="getSpecies()" class="selectable">Get Species List</button>
-      }
-      @if (agenus.hyperlinks) {
-        <span>
-          <h3>
-            Hyperlinks:
-          </h3>
-          <table>
-            @for (hlink of agenus.hyperlinks; track hlink) {
-              <tr>
-                <td>{{ hlink.language }}</td>
-                <td>
-                  <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
-                </td>
-              </tr>
-            }
-          </table>
-        </span>
-      }
-    </div>
-  }
- 
-
-  <br><br><br>
+  </h3>
+  @if (agenus.comments) {
   <div>
-    <button (click)="goBack()" class="selectable">Go back</button> or
-    <a routerLink="/search" class="selectable"> Search Again </a>
+    @for (comment of agenus.comments; track comment) {
+    <div>
+      <p>{{ comment.text }}</p>
+    </div>
+    }
   </div>
+  }
+  <div>
+    <h3>
+      Common names:
+    </h3>
+    <table>
+      @for (cname of agenus.cnames; track cname) {
+      <tr>
+        <td> {{cname.language}} </td>
+        <td> {{ cname.names | commaSpace}} </td>
+      </tr>
+      }
+    </table>
+  </div>
+  @if (treespecies) {
+  <h3>
+    {{treespecies.length}} local tree specie(s) in genus:
+  </h3>
+  <table>
+    @for (tree of treespecies; track tree) {
+    <tr>
+      <td>
+        <a routerLink="/detail/{{ tree.id }}" class="selectable">
+          {{ tree.identity }} </a>
+      </td>
+      <td>
+        {{ tree.firstname }}
+      </td>
+    </tr>
+    }
+  </table>
+  } @else {
+  <br>
+  <button (click)="getSpecies()" class="selectable">Get Species List</button>
+  }
+  @if (agenus.hyperlinks) {
+  <span>
+    <h3>
+      Hyperlinks:
+    </h3>
+    <table>
+      @for (hlink of agenus.hyperlinks; track hlink) {
+      <tr>
+        <td>{{ hlink.language }}</td>
+        <td>
+          <a class="selectable" href={{hlink.link}}>{{hlink.org}} </a>
+        </td>
+      </tr>
+      }
+    </table>
+  </span>
+  }
+</div>
+}
+
+<br><br>
+<div>
+  <a routerLink="/search" class="selectable"> Search Again </a>
+</div>

@@ -26,14 +26,9 @@ export class FamiliesComponent implements OnInit {
   ngOnInit() {
 
     const familyregex: string = this.route.snapshot.paramMap.get('name') as string;
+        
+    this.getFamiliesByNameRegex(familyregex);
     
-    //must check for good query strings here
-
-    if (familyregex) {
-      this.getFamiliesByNameRegex(familyregex);
-    } else {
-      this.location.back();
-    }
   }
 
 
@@ -49,10 +44,6 @@ export class FamiliesComponent implements OnInit {
           }
         });
       return;
-  
+ 
   }
-
-  goBack(): void {
-    this.location.back();
-  }
-}
+ }

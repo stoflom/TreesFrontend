@@ -1,6 +1,5 @@
-
 @if (Families) {
-  <h2>Found {{ Families.length }} Families</h2>
+<h2>Found {{ Families.length }} Families</h2>
 }
 <!--Must check if Families are defined here!-->
 
@@ -8,18 +7,17 @@
 
 <table>
   @for (family of Families; track family) {
-    <tr>
-      <td>
-        <a routerLink="/family/{{ family.name }}" class="selectable">
-          {{ family.name }}
-        </a>
-      </td>
-    </tr>
+  <tr>
+    <td>
+      <a routerLink="/family/{{ family.name }}" class="selectable">
+        {{ family.name }}
+      </a>
+    </td>
+  </tr>
   }
 </table>
 
+<br><br>
 <div>
-  <h2>
-    <a routerLink="/search" class="selectable"> Search Again </a>
-  </h2>
+   <a routerLink="/search" class="selectable"> Search Again </a>
 </div>
