@@ -34,8 +34,4 @@ export class TreeDetailComponent implements OnInit {
             .subscribe(tree => this.atree = tree);
     }
 
-    goBack(): void {
-        this.location.back();
-    }
-
 }

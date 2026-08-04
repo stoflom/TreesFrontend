@@ -1,6 +1,6 @@
 <div class="header"></div>
 @if (Genera) {
-  <h2>Found {{ Genera.length }} Genera</h2>
+<h2>Found {{ Genera.length }} Genera</h2>
 }
 <!--Must check if Genera are defined here!-->
 
@@ -8,18 +8,17 @@
 
 <table>
   @for (genus of Genera; track genus) {
-    <tr>
-      <td>
-        <a routerLink="/genus/{{ genus.name }}" class="selectable">
-          {{ genus.name }}
-        </a>
-      </td>
-    </tr>
+  <tr>
+    <td>
+      <a routerLink="/genus/{{ genus.name }}" class="selectable">
+        {{ genus.name }}
+      </a>
+    </td>
+  </tr>
   }
 </table>
 
+<br><br>
 <div>
-  <h2>
-    <a routerLink="/search" class="selectable"> Search Again </a>
-  </h2>
+  <a routerLink="/search" class="selectable"> Search Again </a>
 </div>

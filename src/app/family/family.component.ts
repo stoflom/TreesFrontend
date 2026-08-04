@@ -35,9 +35,5 @@ export class FamilyComponent implements OnInit {
             .subscribe(family => this.afamily = family);   //When family is returned (observed) assign it to afamily.
     }
 
-    goBack(): void {
-        this.location.back();
-    }
-
 }
 

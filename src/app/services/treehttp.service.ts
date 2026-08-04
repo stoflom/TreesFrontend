@@ -5,8 +5,8 @@ import { catchError, tap } from 'rxjs/operators';
 import { ITreeDocument } from '../interfaces/tree';
 import { IGenusDocument } from '../interfaces/genus';
 import { IFamilyDocument } from '../interfaces/family';
+import { IVegetationDocument } from '../interfaces/vegetation';
 import { MessageService } from './message.service';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,12 @@ export class TreehttpService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
 
-  // Backend URL is configured via .env file (BACKEND_URL)
-  // See src/environments/environment.ts
-  private SATreesUrl = environment.SATreesUrl; 
+  private SATreesUrl = 'http://192.168.0.7:5002/api';
+  //private SATreesUrl = 'http://fedora-msi:5002/api';   //Remember CORS in backend!
+  
+  //This URL will be used by frontend to access backend resources.
+  //It must resolveable by all clients. 
+  //If you  use localhost you must fetch via proxy.json config file (CORS still required) 
 
 
   private headersJSON = new HttpHeaders().set(
@@ -41,6 +44,30 @@ export class TreehttpService {
       catchError(this.handleError<ITreeDocument>(`Tree id=${treeId}`))
     );
   }
+
+  // Get trees by genus and species, return 'undefined' when id not found
+  findTreesByGenusSpecies(treesGenus: string, treesSpecies: string): Observable<ITreeDocument[]> {
+     if (! (treesGenus.trim() && treesSpecies.trim()) ) {
+      // if not search term, return empty array.
+      return of([]);
+    }
+    //Should do add parameter here to ensure url encoding
+    const url = `${this.SATreesUrl}/treegs/${treesGenus}/${treesSpecies}`;
+    return this.http.get<ITreeDocument[]>(url).pipe(
+      tap((x) =>
+        x.length
+          ? this.log(`Found ${x.length} trees matching "${treesGenus} ${treesSpecies}"`)
+          : this.log(`No trees match "${treesGenus}" "${treesSpecies}"`)
+      ),
+      catchError(
+        this.handleError<ITreeDocument[]>(
+          `ERROR Tree genus query: ${treesGenus} ${treesSpecies}`, []
+        )
+      )
+    );
+  }
+
+
 
   //Get all trees belonging to specified genus (only _Id, Identity)
   //This is exact match and not regex
@@ -166,6 +193,18 @@ export class TreehttpService {
     );
   }
 
+  // Get Vegetation by abbreviation, return 'undefined' when not found
+  findVegetationByAbbreviation(vegAbbrev: string): Observable<IVegetationDocument> {
+    const url = `${this.SATreesUrl}/vegetation/abbreviation/${vegAbbrev}`;
+    return this.http.get<IVegetationDocument>(url).pipe(
+      tap((h) => {
+        const outcome = h ? `fetched` : `did not find`;
+        this.log(`Fetching vegetation by abbreviation: ${vegAbbrev}: ${outcome}`);
+      }),
+      catchError(this.handleError<IVegetationDocument>(`Vegetation abbreviation=${vegAbbrev}`))
+    );
+  }
+
   // Get Family by name, return 'undefined' when not found
   findFamilyByName(familyName: string): Observable<IFamilyDocument> {
     const url = `${this.SATreesUrl}/Family/${familyName}`;
@@ -177,6 +216,24 @@ export class TreehttpService {
       catchError(this.handleError<IFamilyDocument>(`Family name=${familyName}`))
     );
   }
+
+   // Get Family by regex name, returns array, return 'undefined' when not found
+   findFamilyByRegexName(familyName: string): Observable<IFamilyDocument[]> {
+     if (!familyName.trim()) {
+       // if not search term, return empty array.
+       return of([]);
+     }
+     const encodedfname = this.customEncodeURIComponent(familyName);
+     const url = `${this.SATreesUrl}/family/regex/${encodedfname}`;
+     return this.http.get<IFamilyDocument[]>(url).pipe(
+       tap((x) =>
+           x.length
+             ? this.log(`Found ${x.length} Families matching "${familyName}"`)
+             : this.log(`No Families match "${familyName }"`)
+         ),
+       catchError(this.handleError<IFamilyDocument[]>(`Family name=${familyName}`))
+     );
+   }
 
   private customEncodeURIComponent(str: string): string {
     // Escape '?' 

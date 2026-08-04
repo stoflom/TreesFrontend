@@ -1,0 +1,17 @@
+<div>
+  @if (avegetation) {
+    <div>
+      <h2 class="detail"> Vegetation Type:
+        <i>{{ avegetation.name }} </i> ({{ avegetation.abbreviation }})
+      </h2>
+        <div>
+          <p [innerHTML]="avegetation.description"></p>
+        </div>
+    </div>
+  }
+
+  <br><br>
+  <div>
+    <a routerLink="/search" class="selectable"> Search Again </a>
+  </div>
+</div>
