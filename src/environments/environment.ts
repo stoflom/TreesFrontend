@@ -1,3 +1,4 @@
 export const environment = {
-  SATreesUrl: 'http://192.168.0.8:5002/api',
+  // Backend runs on localhost (both frontend and backend on fedora)
+  SATreesUrl: 'http://localhost:5002/api',
 };
