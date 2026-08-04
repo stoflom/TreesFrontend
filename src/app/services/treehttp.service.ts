@@ -6,6 +6,7 @@ import { ITreeDocument } from '../interfaces/tree';
 import { IGenusDocument } from '../interfaces/genus';
 import { IFamilyDocument } from '../interfaces/family';
 import { MessageService } from './message.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +15,9 @@ export class TreehttpService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
 
-  private SATreesUrl = 'http://192.168.0.8:5002/api';   //Remember CORS in backend!
-  //This URL will be used by frontend to access backend resources. If you
-  //use localhost you must fetch via proxy.json config file (CORS still required) 
+  // Backend URL is configured via .env file (BACKEND_URL)
+  // See src/environments/environment.ts
+  private SATreesUrl = environment.SATreesUrl; 
 
 
   private headersJSON = new HttpHeaders().set(

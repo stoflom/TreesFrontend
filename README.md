@@ -1,54 +1,70 @@
-# SATrees frontend: Based on AngularTourOfHeroes demo
+# SATrees Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
+Angular-based frontend for the SATrees backend API.
 
-## Development server, beware CORS issues, see: https://stackoverflow.com/questions/43150051/how-to-enable-cors-nodejs-with-express
+## Configuration
+
+### Backend Server URL
+
+The backend server hostname is configured via a `.env` file. Copy the example and update with your backend URL:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` to set the correct backend address:
+
+```env
+BACKEND_URL=http://your-backend-host:5002
+```
+
+The frontend will automatically append `/api` to the configured URL for all API requests.
+
+> **Note:** If you're using `localhost` for development, you can either:
+> - Set `BACKEND_URL=http://localhost:5002` and use the `proxy.json` configuration (see below)
+> - Or point directly to your backend host if CORS is enabled
+
+### Proxy Configuration (Optional)
+
+When developing with `localhost`, you can use the Angular proxy to avoid CORS issues. The `proxy.json` file routes `/api` requests to the backend:
+
+```bash
+ng serve --proxy-config proxy.json
+```
+
+Or configure it directly in `angular.json`. See the [Angular proxy docs](https://angular.io/guide/build#proxying-to-a-backend-server) for details.
+
+> **Note:** CORS should be configured on the backend server. If CORS is enabled, the proxy is not required.
+
+## Development Server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-Run `ng serve --host 0.0.0.0`  for debug access from outside localhost. (Firewall must be openend first.)
-
-### NOTE CORS now configured in backend server so proxy (see below) not needed
-### anymore.
-### CORS: start frontend as follows to enable fetching via proxy from backend: (to prevent CORS problems):
- https://medium.com/bb-tutorials-and-thoughts/angular-how-to-proxy-to-backend-server-6fb37ef0d025
- https://www.positronx.io/handle-cors-in-angular-with-proxy-configuration/  (GOOD), or
-
-### set "proxyConfig" in angular.json 
-ng  serve --proxy-config proxy.json
-##Alternatively configure these options in angular.json
-....
- "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "proxyConfig": "./proxy.json",
-            "host": "0.0.0.0"
-          },...
-### NOTE:The proxy.json configuration should refer to "/api", not "/api/*"
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-See `ng generate --help`
-
-## Lint
-
-Run `ng lint TreesFrontend`
+Run `ng serve --host 0.0.0.0` for debug access from outside localhost. (Firewall must be opened first.)
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--configuration production` flag for a production build.
 
-## Running unit tests
+## Code Scaffolding
 
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Lint
+
+Run `ng lint` to lint the project.
+
+## Testing
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Project Structure
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+- `src/app/services/treehttp.service.ts` - Main API service for communicating with the backend
+- `src/environments/environment.ts` - Environment configuration (reads from `.env`)
+- `proxy.json` - Development proxy configuration for backend API routes
 
-## Further help
+## Dependencies
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Angular 21
+- ngx-cookie-service for cookie management
