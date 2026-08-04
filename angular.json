@@ -30,8 +30,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
-            "envFile": ["./.env"]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -60,8 +59,7 @@
         "serve": {
           "builder": "@angular/build:dev-server",
           "options": {
-            "host": "0.0.0.0",
-            "envFile": ["./.env"]
+            "host": "0.0.0.0"
           },
           "configurations": {
             "production": {

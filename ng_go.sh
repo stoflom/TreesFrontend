@@ -1,2 +1,2 @@
 #ng serve --host 0.0.0.0 --proxy-config proxy.json
-ng serve --host fedora-msi
+./node_modules/.bin/ng serve --host 0.0.0.0
