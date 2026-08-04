@@ -94,11 +94,13 @@ Set the backend API URL in the environment files:
 ```typescript
 // src/environments/environment.ts
 export const environment = {
-  SATreesUrl: 'http://192.168.0.8:5002/api',
+  SATreesUrl: 'http://localhost:5002/api',
 };
 ```
 
-**Important:** Use an IP address or hostname — `localhost` will not work due to backend CORS restrictions.
+The backend CORS is configured to allow `localhost` origins (`http://localhost:4200`, `http://localhost:5002`), so `localhost` works fine for local development.
+
+> **Note:** Using `localhost` in the environment config is fine for development, but in production the backend typically serves the frontend directly (e.g. via Express `static` middleware), so no CORS configuration is needed.
 
 ### Proxy (optional)
 
