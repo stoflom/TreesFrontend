@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { ITreeDocument } from '../interfaces/tree';
 import { IGenusDocument } from '../interfaces/genus';
 import { IFamilyDocument } from '../interfaces/family';
@@ -15,12 +16,7 @@ export class TreehttpService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
 
-  private SATreesUrl = 'http://192.168.0.7:5002/api';
-  //private SATreesUrl = 'http://fedora-msi:5002/api';   //Remember CORS in backend!
-  
-  //This URL will be used by frontend to access backend resources.
-  //It must resolveable by all clients. 
-  //If you  use localhost you must fetch via proxy.json config file (CORS still required) 
+  private SATreesUrl = environment.SATreesUrl; 
 
 
   private headersJSON = new HttpHeaders().set(
