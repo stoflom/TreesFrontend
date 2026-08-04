@@ -1,30 +1,95 @@
 # SATrees Frontend
 
-Application to search with regular expressions for common names of 1600 Southern African Trees in many languages. Links are provided to Wikipedia, SANBI and WFO sites where more details can be found. The data is retrieved by a Node.js/Express/Mongoose/MongoDB backend. The data is not in the public domain.
+Angular frontend for the Southern African Trees search application. Search across **1,600+ tree species** using regular expressions in **multiple languages**. Results link to Wikipedia, SANBI, and WFO for detailed information.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0 and has been upgraded to version 21.1.0.
+> ⚠️ **Data notice:** The tree data is not in the public domain.
 
-## Quick start
+## Prerequisites
+
+### Node.js
+
+Node.js 20+ is required. Check your version:
+
+```bash
+node --version
+```
+
+### Yarn
+
+This project uses **Yarn 4** (Corepack). Enable it if not already:
+
+```bash
+corepack enable
+```
+
+### GeckoDriver (Firefox testing)
+
+If running automated browser tests, install [GeckoDriver](https://github.com/mozilla/geckodriver) and ensure it's on your `PATH`:
+
+```bash
+# Fedora
+sudo dnf install geckodriver
+
+# macOS
+brew install geckodriver
+```
+
+## Installation
+
+Install project dependencies (Angular, libraries, build tools):
+
+```bash
+yarn install
+```
+
+This installs everything listed in `package.json` into `node_modules/` and creates/updates `.yarn/cache/` and `.pnp.*` files.
+
+> **Note:** Yarn 4 is enforced via the `packageManager` field in `package.json` (`yarn@4.12.0`). If you don't have Corepack enabled, run `corepack enable` first.
+
+### Alternative: npm
+
+You can also use npm if preferred:
+
+```bash
+npm install
+```
+
+This will use the `yarn.lock` file but may produce a slightly different `node_modules` layout. For consistency with CI and other developers, **Yarn is recommended**.
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Framework | Angular 21.1.0 (upgraded from Angular 10.2.0) |
+| Language | TypeScript |
+| Backend | Node.js / Express / Mongoose / MongoDB |
+
+## Quick Start
 
 ```bash
 ./ng_go.sh
 ```
 
-This runs `ng serve --host fedora-msi`. Navigate to `http://fedora-msi:4200/` (or `http://localhost:4200/` from the same machine) to access the app.
+This starts the dev server on `fedora-msi:4200`. Access the app at:
 
-## Development server
+- **Local machine:** http://localhost:4200/
+- **Network:** http://fedora-msi:4200/
 
-Run `ng serve` for a dev server. The app will automatically reload if you change any source files.
+## Development Server
 
 | Command | Description |
 |---------|-------------|
-| `ng serve` | Start dev server on `localhost:4200` |
-| `./ng_go.sh` | Start dev server on `fedora-msi:4200` |
+| `ng serve` | Dev server on `localhost:4200` |
+| `./ng_go.sh` | Dev server on `fedora-msi:4200` |
 | `ng serve --host 0.0.0.0` | Expose to all network interfaces (requires firewall rules) |
 
-## Configuring the backend URL
+Source files are watched — the app reloads automatically on changes.
 
-The backend URL is configured in `src/environments/environment.ts` (development) and `src/environments/environment.prod.ts` (production):
+## Configuration
+
+### Backend URL
+
+Set the backend API URL in the environment files:
 
 ```typescript
 // src/environments/environment.ts
@@ -33,11 +98,11 @@ export const environment = {
 };
 ```
 
-Change `SATreesUrl` to point at your backend server. **The backend cannot be accessed via `localhost` — an IP address or hostname is required** because CORS is configured on the backend to only accept requests from specific origins.
+**Important:** Use an IP address or hostname — `localhost` will not work due to backend CORS restrictions.
 
-### Proxy server (optional)
+### Proxy (optional)
 
-If you prefer to proxy API requests through the frontend dev server instead of direct backend access, create a `proxy.json` file:
+If you prefer to proxy API requests through the frontend dev server, create `proxy.json`:
 
 ```json
 {
@@ -50,43 +115,62 @@ If you prefer to proxy API requests through the frontend dev server instead of d
 }
 ```
 
-Then start the dev server with:
+Then run:
 
 ```bash
 ng serve --proxy-config proxy.json
 ```
 
-Alternatively, set `proxyConfig` in `angular.json` under the `serve` options so it applies automatically.
+Or set `proxyConfig` in `angular.json` under serve options for a permanent setup.
 
-> **Note:** With CORS enabled on the backend, the proxy is not required — just set the backend URL in `src/environments/environment.ts`.
+> With backend CORS enabled, the proxy is optional — setting `SATreesUrl` in the environment config is sufficient.
 
 ## Build
 
-Run `ng build` to build the project. Build artifacts are stored in the `dist/trees-frontend/` directory.
-
 | Command | Description |
 |---------|-------------|
-| `ng build` | Build with production configuration |
-| `ng build --configuration development` | Build with development settings (no optimization, source maps) |
+| `ng build` | Production build |
+| `ng build --configuration development` | Dev build (no optimization, with source maps) |
 
-## Lint
+Build output is placed in `dist/trees-frontend/`.
 
-Run `ng lint TreesFrontend` to check for code quality issues.
+## Running in Production
 
-## Code scaffolding
+The frontend is a single-page application — in production it is served by the backend (e.g. via Express `static` middleware). The backend typically hosts the built files at the root path.
 
-Run `ng generate component component-name` to generate a new component. You can also generate `directive`, `pipe`, `service`, `guard`, `interface`, `enum`, or `module`.
+For **local testing of the production build**, you can serve it with any static file server:
 
 ```bash
-ng generate component my-new-component
+# Using npx serve (quick local test)
+npx serve dist/trees-frontend/
+
+# Or using a simple Python server
+python3 -m http.server 8080 -d dist/trees-frontend/
 ```
 
-See `ng generate --help` for all available options.
+> **Note:** You'll need to set the backend URL in `src/environments/environment.prod.ts` before building for production.
 
-## Running unit tests
+## Code Generation
 
-Not implemented yet.
+```bash
+ng generate component my-component
+ng generate service my-service
+ng generate directive my-directive
+```
 
-## Further help
+See `ng generate --help` for all available schematics.
 
-For more help on the Angular CLI, run `ng help` or visit the [Angular CLI Overview and Command Reference](https://angular.io/cli).
+## Linting
+
+```bash
+ng lint TreesFrontend
+```
+
+## Unit Tests
+
+Not yet implemented.
+
+## Further Help
+
+- [Angular CLI Overview & Command Reference](https://angular.io/cli)
+- Run `ng help` for CLI help
