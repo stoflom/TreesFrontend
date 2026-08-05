@@ -60,9 +60,8 @@ This will use the `yarn.lock` file but may produce a slightly different `node_mo
 
 | Layer | Technology |
 |-------|------------|
-| Framework | Angular 21.1.0 (upgraded from Angular 10.2.0) |
+| Framework | Angular 21.1.0 |
 | Language | TypeScript |
-| Backend | Deno / Express / Mongoose / MongoDB |
 
 ## Quick Start
 
@@ -78,20 +77,18 @@ This builds the Angular frontend and starts the Deno backend on port **5002**. T
 ### Frontend Dev Server Only
 
 ```bash
-./ng_go.sh
+ng serve
 ```
 
-This starts the Angular dev server on `fedora-msi:4200`. Access the app at:
+This starts the Angular dev server on `localhost:4200`. Access the app at:
 
 - **Local machine:** http://localhost:4200/
-- **Network:** http://fedora-msi:4200/
 
 ## Development Server
 
 | Command | Description |
 |---------|-------------|
 | `ng serve` | Dev server on `localhost:4200` |
-| `./ng_go.sh` | Dev server on `fedora-msi:4200` |
 | `ng serve --host 0.0.0.0` | Expose to all network interfaces (requires firewall rules) |
 
 Source files are watched — the app reloads automatically on changes.
