@@ -62,15 +62,26 @@ This will use the `yarn.lock` file but may produce a slightly different `node_mo
 |-------|------------|
 | Framework | Angular 21.1.0 (upgraded from Angular 10.2.0) |
 | Language | TypeScript |
-| Backend | Node.js / Express / Mongoose / MongoDB |
+| Backend | Deno / Express / Mongoose / MongoDB |
 
 ## Quick Start
+
+### Full Application (Recommended)
+
+```bash
+# From the repository root
+./start.sh
+```
+
+This builds the Angular frontend and starts the Deno backend on port **5002**. The frontend is served statically by the backend.
+
+### Frontend Dev Server Only
 
 ```bash
 ./ng_go.sh
 ```
 
-This starts the dev server on `fedora-msi:4200`. Access the app at:
+This starts the Angular dev server on `fedora-msi:4200`. Access the app at:
 
 - **Local machine:** http://localhost:4200/
 - **Network:** http://fedora-msi:4200/
@@ -133,24 +144,13 @@ Or set `proxyConfig` in `angular.json` under serve options for a permanent setup
 |---------|-------------|
 | `ng build` | Production build |
 | `ng build --configuration development` | Dev build (no optimization, with source maps) |
+| `deno task build:frontend` | Build from backend directory |
 
 Build output is placed in `dist/trees-frontend/`.
 
-## Running in Production
+## Production
 
-The frontend is a single-page application — in production it is served by the backend (e.g. via Express `static` middleware). The backend typically hosts the built files at the root path.
-
-For **local testing of the production build**, you can serve it with any static file server:
-
-```bash
-# Using npx serve (quick local test)
-npx serve dist/trees-frontend/
-
-# Or using a simple Python server
-python3 -m http.server 8080 -d dist/trees-frontend/
-```
-
-> **Note:** You'll need to set the backend URL in `src/environments/environment.prod.ts` before building for production.
+In production, the frontend is built and served statically by the Deno backend on port **5002**. No separate frontend server is needed.
 
 ## Code Generation
 
