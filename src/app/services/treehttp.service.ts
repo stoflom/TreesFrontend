@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
 import { ITreeDocument } from '../interfaces/tree';
 import { IGenusDocument } from '../interfaces/genus';
 import { IFamilyDocument } from '../interfaces/family';
@@ -16,7 +15,8 @@ export class TreehttpService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);
 
-  private SATreesUrl = environment.SATreesUrl; 
+  // Use relative path so it works with both localhost and 127.0.0.1 origins
+  private SATreesUrl = '/api'; 
 
 
   private headersJSON = new HttpHeaders().set(
