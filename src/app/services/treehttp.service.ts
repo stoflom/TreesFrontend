@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -8,9 +8,7 @@ import { IFamilyDocument } from '../interfaces/family';
 import { IVegetationDocument } from '../interfaces/vegetation';
 import { MessageService } from './message.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class TreehttpService {
   private http = inject(HttpClient);
   private messageService = inject(MessageService);

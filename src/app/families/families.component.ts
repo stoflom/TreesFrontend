@@ -20,7 +20,7 @@ export class FamiliesComponent implements OnInit {
   private router = inject(Router);
 
 
-  Families: IFamilyDocument[] = {} as IFamilyDocument[];   //definite assignment
+  Families: IFamilyDocument[] = [];
 
 
   ngOnInit() {

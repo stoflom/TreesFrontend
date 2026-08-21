@@ -1,13 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { MessageService } from './message.service';
 
 //This should use the database or be stored statically here,
 // but for now we will use localStorage which allows the user the choice
 // of persistence across sessions.
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class PersistService {
 
   private messageService = inject(MessageService);

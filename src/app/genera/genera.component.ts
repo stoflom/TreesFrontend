@@ -20,7 +20,7 @@ export class GeneraComponent implements OnInit {
   private router = inject(Router);
 
 
-  Genera: IGenusDocument[] = {} as IGenusDocument[];   //definite assignment
+  Genera: IGenusDocument[] = [];
 
 
   ngOnInit() {

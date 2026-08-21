@@ -22,9 +22,18 @@ This project uses **Yarn 4** (Corepack). Enable it if not already:
 corepack enable
 ```
 
-### GeckoDriver (Firefox testing)
+### Firefox (unit tests)
 
-If running automated browser tests, install [GeckoDriver](https://github.com/mozilla/geckodriver) and ensure it's on your `PATH`:
+Unit tests run in a headless **Firefox** browser via Karma. Install Firefox if not already present:
+
+```bash
+# Fedora
+sudo dnf install firefox
+```
+
+### GeckoDriver (optional, Selenium-based browser testing only)
+
+Only needed if you run automated browser tests through Selenium/Marionette — **not** required for the Karma unit tests below. If you do, install [GeckoDriver](https://github.com/mozilla/geckodriver) and ensure it's on your `PATH`:
 
 ```bash
 # Fedora
@@ -60,8 +69,9 @@ This will use the `yarn.lock` file but may produce a slightly different `node_mo
 
 | Layer | Technology |
 |-------|------------|
-| Framework | Angular 21.1.0 |
-| Language | TypeScript |
+| Framework | Angular 22.1 (standalone components, `@Service()` decorator) |
+| Language | TypeScript 6.0 |
+| Testing | Karma + Jasmine (headless Firefox) |
 
 ## Quick Start
 
@@ -72,24 +82,26 @@ This will use the `yarn.lock` file but may produce a slightly different `node_mo
 ./start.sh
 ```
 
-This builds the Angular frontend and starts the Deno backend on port **5002**. The frontend is served statically by the backend.
+This builds the Angular frontend and starts the Deno backend on port **5002**. The backend serves the built frontend from `TreesFrontend/dist/trees-frontend/browser` statically, so the app is available at http://localhost:5002/.
 
 ### Frontend Dev Server Only
 
 ```bash
-ng serve
+ng serve --proxy-config proxy.json
 ```
 
-This starts the Angular dev server on `localhost:4200`. Access the app at:
+This starts the Angular dev server on `localhost:4200` and proxies `/api/*` requests to the backend (see [Proxy](#proxy)). Access the app at:
 
 - **Local machine:** http://localhost:4200/
+
+> The backend must be running (see `TreesBackend/deno_go.sh` or `deno task start`).
 
 ## Development Server
 
 | Command | Description |
 |---------|-------------|
-| `ng serve` | Dev server on `localhost:4200` |
-| `ng serve --host 0.0.0.0` | Expose to all network interfaces (requires firewall rules) |
+| `ng serve --proxy-config proxy.json` | Dev server on `localhost:4200` with API proxy |
+| `ng serve --host 0.0.0.0 --proxy-config proxy.json` | Expose to all network interfaces (requires firewall rules) |
 
 Source files are watched — the app reloads automatically on changes.
 
@@ -97,27 +109,21 @@ Source files are watched — the app reloads automatically on changes.
 
 ### Backend URL
 
-Set the backend API URL in the environment files:
+The services use the **relative** API path `/api` (see `TreehttpService` and `VersionService`). This works in both setups without configuration:
 
-```typescript
-// src/environments/environment.ts
-export const environment = {
-  SATreesUrl: 'http://localhost:5002/api',
-};
-```
+- **Production:** the backend serves the frontend, so `/api` resolves to the same origin.
+- **Development:** the dev server proxies `/api` to the backend (see below).
 
-The backend CORS is configured to allow `localhost` origins (`http://localhost:4200`, `http://localhost:5002`), so `localhost` works fine for local development.
+> **Note:** `src/environments/environment.ts` / `environment.prod.ts` still exist but are **not currently used** by any code.
 
-> **Note:** Using `localhost` in the environment config is fine for development, but in production the backend typically serves the frontend directly (e.g. via Express `static` middleware), so no CORS configuration is needed.
+### Proxy
 
-### Proxy (optional)
-
-If you prefer to proxy API requests through the frontend dev server, create `proxy.json`:
+`proxy.json` routes `/api` requests from the dev server to the backend:
 
 ```json
 {
   "/api": {
-    "target": "http://192.168.0.10:5002",
+    "target": "http://192.168.0.9:5002",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
@@ -125,15 +131,13 @@ If you prefer to proxy API requests through the frontend dev server, create `pro
 }
 ```
 
-Then run:
+The `target` must point at a running backend (currently `fedora-nuc`, `192.168.0.9`). Run:
 
 ```bash
 ng serve --proxy-config proxy.json
 ```
 
-Or set `proxyConfig` in `angular.json` under serve options for a permanent setup.
-
-> With backend CORS enabled, the proxy is optional — setting `SATreesUrl` in the environment config is sufficient.
+> The proxy is required for development because the app calls the API with relative paths.
 
 ## Build
 
@@ -167,9 +171,31 @@ ng lint TreesFrontend
 
 ## Unit Tests
 
-Not yet implemented.
+Unit tests use **Karma + Jasmine** and run in a headless **Firefox** browser (via `karma-firefox-launcher`).
+
+```bash
+# Run once and exit
+yarn test --watch=false
+
+# Run in watch mode (default)
+yarn test
+```
+
+Configuration lives in [`karma.conf.js`](karma.conf.js):
+
+- `browsers: ['FirefoxHeadless']` — no display server required.
+- `frameworks: ['jasmine']` — the `@angular/build:karma` builder injects its own asset/polyfill plugins, so no Angular framework plugin is listed in the config.
+- Coverage reporter outputs to `coverage/trees-frontend/` when enabled.
+
+Requirements:
+
+- Firefox installed (see [Prerequisites](#firefox-unit-tests)).
+- No backend or database needed — components are tested with `provideHttpClient()`, `provideRouter([])` and stubbed `ActivatedRoute` providers, so HTTP calls fail safely and are caught by the services.
+
+Current coverage: all services (`MessageService`, `PersistService`, `TreehttpService`) and all components have "should create" specs.
 
 ## Further Help
 
 - [Angular CLI Overview & Command Reference](https://angular.io/cli)
+- [Angular 22 `@Service` decorator](https://angular.dev/basics/di)
 - Run `ng help` for CLI help

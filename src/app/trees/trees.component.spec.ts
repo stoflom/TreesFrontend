@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { ActivatedRoute, provideRouter } from '@angular/router';
 import { TreesComponent } from './trees.component';
 
 describe('TreesComponent', () => {
@@ -7,9 +9,18 @@ describe('TreesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TreesComponent]
-    })
-    .compileComponents();
+      imports: [TreesComponent],
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: { paramMap: new Map<string, string>() },
+          },
+        },
+      ],
+    });
 
     fixture = TestBed.createComponent(TreesComponent);
     component = fixture.componentInstance;

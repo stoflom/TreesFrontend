@@ -22,7 +22,7 @@ export class TreeDetailComponent implements OnInit {
     private treehttpService = inject(TreehttpService);
     private location = inject(Location);
 
-    atree: ITreeDocument = {} as ITreeDocument;   //definite assignment
+    atree: ITreeDocument | undefined;
 
     ngOnInit(): void {
         this.getTree()

@@ -22,7 +22,7 @@ export class TreesComponent implements OnInit {
 
 
   selectedTree: ITreeDocument = {} as ITreeDocument; //definite assignment  
-  trees: ITreeDocument[] = {} as ITreeDocument[];   //definite assignment
+  trees: ITreeDocument[] = [];
 
 
   ngOnInit() {
