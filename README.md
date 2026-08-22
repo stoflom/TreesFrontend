@@ -188,6 +188,39 @@ Requirements:
 
 Current coverage: all services (`MessageService`, `PersistService`, `TreehttpService`) and all components have "should create" specs.
 
+## Browser Smoke Test
+
+[`test/smoke_test.py`](test/smoke_test.py) is a headless Firefox (Selenium + GeckoDriver) end-to-end smoke test. It verifies that:
+
+1. The app boots and redirects to `/search`, and the title renders.
+2. The version header matches the backend `/api/version` response.
+3. A Perl-regex common-name search (English `marula`) returns 6 trees.
+4. A result links to the tree detail page, which renders.
+5. A genus regex search (`^A`) returns genera.
+6. A family regex search (`ceae$`) returns families.
+
+A console + XHR network hook is installed after the initial page load; because the app is an SPA, the hook survives router navigation, so console errors and API calls made during the test are captured and printed at the end (and on failure).
+
+### Prerequisites
+
+- Firefox on `PATH`
+- GeckoDriver on `PATH` (see [Prerequisites](#geckodriver-optional-selenium-based-browser-testing-only))
+- The `firefox-testing` skill (`FirefoxTester`) — path overridable via the `FIREFOX_TESTING_SKILL` env var (default: `~/.pi/agent/skills/firefox-testing`)
+- The backend running (see `TreesBackend/deno_go.sh` or `deno task start`)
+- The Angular dev server with API proxy on port **4200**:
+
+  ```bash
+  ng serve --proxy-config proxy.json
+  ```
+
+### Running
+
+```bash
+python3 test/smoke_test.py [base_url]
+```
+
+`base_url` defaults to `http://localhost:4200`. A debug screenshot is saved to `/tmp/trees-smoke.png`. The test exits non-zero if any check fails.
+
 ## Further Help
 
 - [Angular CLI Overview & Command Reference](https://angular.io/cli)
