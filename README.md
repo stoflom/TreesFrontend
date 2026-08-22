@@ -22,18 +22,9 @@ This project uses **Yarn 4** (Corepack). Enable it if not already:
 corepack enable
 ```
 
-### Firefox (unit tests)
-
-Unit tests run in a headless **Firefox** browser via Karma. Install Firefox if not already present:
-
-```bash
-# Fedora
-sudo dnf install firefox
-```
-
 ### GeckoDriver (optional, Selenium-based browser testing only)
 
-Only needed if you run automated browser tests through Selenium/Marionette — **not** required for the Karma unit tests below. If you do, install [GeckoDriver](https://github.com/mozilla/geckodriver) and ensure it's on your `PATH`:
+Only needed if you run automated browser tests through Selenium/Marionette — **not** required for the unit tests below (Vitest runs in a Node.js/jsdom environment, no browser needed). If you do, install [GeckoDriver](https://github.com/mozilla/geckodriver) and ensure it's on your `PATH`:
 
 ```bash
 # Fedora
@@ -71,7 +62,7 @@ This will use the `yarn.lock` file but may produce a slightly different `node_mo
 |-------|------------|
 | Framework | Angular 22.1 (standalone components, `@Service()` decorator) |
 | Language | TypeScript 6.0 |
-| Testing | Karma + Jasmine (headless Firefox) |
+| Testing | Vitest (jsdom environment, `@angular/build:unit-test` builder) |
 
 ## Quick Start
 
@@ -171,25 +162,28 @@ ng lint TreesFrontend
 
 ## Unit Tests
 
-Unit tests use **Karma + Jasmine** and run in a headless **Firefox** browser (via `karma-firefox-launcher`).
+Unit tests use **Vitest** (Angular's currently recommended runner) via the `@angular/build:unit-test` builder. Tests run in a Node.js environment with **jsdom** — no browser installation required.
 
 ```bash
 # Run once and exit
 yarn test --watch=false
 
-# Run in watch mode (default)
+# Run in watch mode (default in a TTY)
 yarn test
+
+# Run with coverage (v8 provider; html + text-summary reporters)
+yarn test --watch=false --coverage
 ```
 
-Configuration lives in [`karma.conf.js`](karma.conf.js):
+Configuration lives in the `test` target of [`angular.json`](angular.json):
 
-- `browsers: ['FirefoxHeadless']` — no display server required.
-- `frameworks: ['jasmine']` — the `@angular/build:karma` builder injects its own asset/polyfill plugins, so no Angular framework plugin is listed in the config.
-- Coverage reporter outputs to `coverage/trees-frontend/` when enabled.
+- `runner: 'vitest'` — Vitest runner (globals enabled, `isolate: false` to match the old Karma/Jasmine experience).
+- `tsConfig: 'tsconfig.spec.json'` — spec type-checking with `vitest/globals` types.
+- `coverageReporters: ['html', 'text-summary']` — requires `@vitest/coverage-v8`.
 
 Requirements:
 
-- Firefox installed (see [Prerequisites](#firefox-unit-tests)).
+- No browser or display server needed (jsdom environment).
 - No backend or database needed — components are tested with `provideHttpClient()`, `provideRouter([])` and stubbed `ActivatedRoute` providers, so HTTP calls fail safely and are caught by the services.
 
 Current coverage: all services (`MessageService`, `PersistService`, `TreehttpService`) and all components have "should create" specs.
