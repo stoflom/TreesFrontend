@@ -14,8 +14,10 @@ export class TreehttpService {
   private messageService = inject(MessageService);
 
   // Use relative path so it works with both localhost and 127.0.0.1 origins
-  private SATreesUrl = '/api'; 
+  // private SATreesUrl = '/api'; 
 
+  //Testing against fedora-nuc backend
+  private SATreesUrl = 'http://fedora-nuc:5002/api';  // URL to web api
 
   private headersJSON = new HttpHeaders().set(
     'Content-Type',
