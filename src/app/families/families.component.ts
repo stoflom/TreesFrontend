@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IFamilyDocument } from '../interfaces/family';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
@@ -20,7 +20,7 @@ export class FamiliesComponent implements OnInit {
   private router = inject(Router);
 
 
-  Families: IFamilyDocument[] = [];
+  families = signal<IFamilyDocument[]>([]);
 
 
   ngOnInit() {
@@ -35,15 +35,13 @@ export class FamiliesComponent implements OnInit {
   getFamiliesByNameRegex(familyregex: string): void {
 
       this.treehttpService.findFamilyByRegexName(familyregex)
-        .subscribe(Families => {
-          this.Families = Families;
-          
+        .subscribe((result) => {
+          this.families.set(result);
+
           // Redirect to family detail page if exactly one family is found
-          if (Families.length === 1) {
-            this.router.navigate(['/family', Families[0].name]);
+          if (result.length === 1) {
+            this.router.navigate(['/family', result[0].name]);
           }
         });
-      return;
- 
   }
  }

@@ -1,13 +1,13 @@
 <div class="header"></div>
-@if (Genera) {
-<h2>Found {{ Genera.length }} Genera</h2>
+@if (genera()) {
+<h2>Found {{ genera().length }} Genera</h2>
 }
 <!--Must check if Genera are defined here!-->
 
 <h3>Click on a genus name</h3>
 
 <table>
-  @for (genus of Genera; track genus) {
+  @for (genus of genera(); track genus) {
   <tr>
     <td>
       <a routerLink="/genus/{{ genus.name }}" class="selectable">

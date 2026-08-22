@@ -1,5 +1,5 @@
 <div>
-  @if (avegetation) {
+  @if (avegetation(); as avegetation) {
     <div>
       <h2 class="detail"> Vegetation Type:
         <i>{{ avegetation.name }} </i> ({{ avegetation.abbreviation }})

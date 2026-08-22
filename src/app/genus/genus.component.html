@@ -1,4 +1,4 @@
-@if (agenus) {
+@if (agenus(); as agenus) {
 <div>
   <h2>Genus:
     <i>{{ agenus.name }}</i> <span class="auth"> {{ agenus.authority }} </span>
@@ -29,7 +29,7 @@
       }
     </table>
   </div>
-  @if (treespecies) {
+  @if (treespecies(); as treespecies) {
   <h3>
     {{treespecies.length}} local tree specie(s) in genus:
   </h3>

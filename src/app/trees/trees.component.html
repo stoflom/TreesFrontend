@@ -1,12 +1,12 @@
 <div class="header"></div>
-@if (trees) {
-  <h2>Found {{ trees.length }} Trees</h2>
+@if (trees()) {
+  <h2>Found {{ trees().length }} Trees</h2>
   } <!--Must check if trees are defined here!-->
 
   <h3>Click on a tree name</h3>
 
   <table>
-    @for (tree of trees; track tree) {
+    @for (tree of trees(); track tree) {
       <tr>
         <td>
           <a routerLink="/detail/{{ tree.id }}" class="selectable">

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
@@ -22,7 +22,7 @@ export class FamilyComponent implements OnInit {
     private location = inject(Location);
 
 
-    afamily: IFamilyDocument = {} as IFamilyDocument;   //definite assignment
+    afamily = signal<IFamilyDocument | undefined>(undefined);
 
     ngOnInit(): void {
         this.getFamily()
@@ -32,7 +32,7 @@ export class FamilyComponent implements OnInit {
     getFamily(): void {     
         const name = this.route.snapshot.paramMap.get('name') as string;
         this.treehttpService.findFamilyByName(name)
-            .subscribe(family => this.afamily = family);   //When family is returned (observed) assign it to afamily.
+            .subscribe(family => this.afamily.set(family));   //When family is returned (observed) assign it to afamily.
     }
 
 }

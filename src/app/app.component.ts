@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MessagesComponent } from './messages/messages.component';
 import { VersionService } from './services/version.service';
@@ -14,11 +14,11 @@ import { VersionService } from './services/version.service';
 })
 export class AppComponent implements OnInit {
   title = 'Dictionary of Names for Southern African Trees';
-  version = '';
+  version = signal('');
 
   private versionService = inject(VersionService);
 
   async ngOnInit(): Promise<void> {
-    this.version = await this.versionService.getVersion();
+    this.version.set(await this.versionService.getVersion());
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ITreeDocument } from '../interfaces/tree';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
@@ -22,7 +22,7 @@ export class TreeDetailComponent implements OnInit {
     private treehttpService = inject(TreehttpService);
     private location = inject(Location);
 
-    atree: ITreeDocument | undefined;
+    atree = signal<ITreeDocument | undefined>(undefined);
 
     ngOnInit(): void {
         this.getTree()
@@ -31,7 +31,7 @@ export class TreeDetailComponent implements OnInit {
     getTree(): void {
         const id: string = this.route.snapshot.paramMap.get('id') as string;
         this.treehttpService.findTreeById(id)
-            .subscribe(tree => this.atree = tree);
+            .subscribe(tree => this.atree.set(tree));
     }
 
 }

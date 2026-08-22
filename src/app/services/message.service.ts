@@ -1,17 +1,17 @@
-import { Service } from '@angular/core';
+import { Service, signal } from '@angular/core';
 
 
 @Service()
 export class MessageService {
-  messages: string[] = [];
+  messages = signal<string[]>([]);
 
 
   add(message: string) {
-    this.messages.push(message);
+    this.messages.update((msgs) => [...msgs, message]);
   }
 
 
   clear() {
-    this.messages = [];
+    this.messages.set([]);
   }
 }

@@ -1,9 +1,9 @@
-@if (messageService.messages.length) {
+@if (messageService.messages().length) {
   <div>
     <h2>Log:
       <button class="selectable" (click)="messageService.clear()">Clear</button>
     </h2>
-    @for (message of messageService.messages; track message) {
+    @for (message of messageService.messages(); track message) {
       <div> {{message}} </div>
     }
   </div>

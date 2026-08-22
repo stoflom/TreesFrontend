@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
@@ -23,8 +23,8 @@ export class GenusComponent implements OnInit {
   private location = inject(Location);
 
 
-  agenus: IGenusDocument = {} as IGenusDocument;   //definite assignment
-  treespecies!: ITreeDocument[];
+  agenus = signal<IGenusDocument | undefined>(undefined);
+  treespecies = signal<ITreeDocument[] | undefined>(undefined);
 
   genusnameparam: string = this.route.snapshot.paramMap.get('name') as string;
 
@@ -35,12 +35,12 @@ export class GenusComponent implements OnInit {
 
   getGenus(): void {
     this.treehttpService.findGenusByName(this.genusnameparam)
-      .subscribe(genus => this.agenus = genus);
+      .subscribe(genus => this.agenus.set(genus));
   }
 
   getSpecies(): void {
     this.treehttpService.findTreesByGenus(this.genusnameparam)
-      .subscribe(species => this.treespecies = species);
+      .subscribe(species => this.treespecies.set(species));
   }
  
 }

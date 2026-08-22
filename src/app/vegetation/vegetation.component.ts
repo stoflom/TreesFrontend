@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
@@ -15,7 +15,7 @@ export class Vegetation implements OnInit {
   private treehttpService = inject(TreehttpService);
   private location = inject(Location);
 
-  avegetation: IVegetationDocument = {} as IVegetationDocument;
+  avegetation = signal<IVegetationDocument | undefined>(undefined);
 
   ngOnInit(): void {
     this.getVegetation();
@@ -25,7 +25,7 @@ export class Vegetation implements OnInit {
     const abbreviation = this.route.snapshot.paramMap.get('abbreviation') as string;
     this.treehttpService
       .findVegetationByAbbreviation(abbreviation)
-      .subscribe((vegetation) => (this.avegetation = vegetation));
+      .subscribe((vegetation) => this.avegetation.set(vegetation));
   }
 
 }

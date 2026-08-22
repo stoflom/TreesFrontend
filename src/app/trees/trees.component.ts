@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ITreeDocument } from '../interfaces/tree';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
@@ -21,8 +21,7 @@ export class TreesComponent implements OnInit {
   private router = inject(Router);
 
 
-  selectedTree: ITreeDocument = {} as ITreeDocument; //definite assignment  
-  trees: ITreeDocument[] = [];
+  trees = signal<ITreeDocument[]>([]);
 
 
   ngOnInit() {
@@ -63,7 +62,7 @@ export class TreesComponent implements OnInit {
   GetTreesByGenusSpecies(treesGenus: string, treesSpecies: string): void {
     this.treehttpService
       .findTreesByGenusSpecies(treesGenus, treesSpecies)
-      .subscribe((response: ITreeDocument[]) => { this.trees = this.FallThroughToDetail(response); });
+      .subscribe((response: ITreeDocument[]) => { this.trees.set(this.FallThroughToDetail(response)); });
   }
 
   getTreesByLanguageNameregex(language: string, nameregex: string): void {
@@ -72,14 +71,14 @@ export class TreesComponent implements OnInit {
 
     this.treehttpService
       .findTreesByCommonNameLanguage(language, nameregex)
-      .subscribe((response: ITreeDocument[]) => { this.trees = this.FallThroughToDetail(response); });
+      .subscribe((response: ITreeDocument[]) => { this.trees.set(this.FallThroughToDetail(response)); });
 
   }
 
   getTreesByGroup(group: string): void {
     this.treehttpService
       .findTreesByGroup(group)
-      .subscribe((response: ITreeDocument[]) => { this.trees = this.FallThroughToDetail(response); });
+      .subscribe((response: ITreeDocument[]) => { this.trees.set(this.FallThroughToDetail(response)); });
   }
 
 }

@@ -1,12 +1,12 @@
-@if (Families) {
-<h2>Found {{ Families.length }} Families</h2>
+@if (families()) {
+<h2>Found {{ families().length }} Families</h2>
 }
 <!--Must check if Families are defined here!-->
 
 <h3>Click on a family name</h3>
 
 <table>
-  @for (family of Families; track family) {
+  @for (family of families(); track family) {
   <tr>
     <td>
       <a routerLink="/family/{{ family.name }}" class="selectable">

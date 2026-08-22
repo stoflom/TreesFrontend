@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { IGenusDocument } from '../interfaces/genus';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
@@ -20,7 +20,7 @@ export class GeneraComponent implements OnInit {
   private router = inject(Router);
 
 
-  Genera: IGenusDocument[] = [];
+  genera = signal<IGenusDocument[]>([]);
 
 
   ngOnInit() {
@@ -34,16 +34,14 @@ export class GeneraComponent implements OnInit {
   getGenaByNameRegex(genusregex: string): void {
 
       this.treehttpService.findGenusByRegexName(genusregex)
-        .subscribe(Genera => {
-          this.Genera = Genera;
-          
+        .subscribe((result) => {
+          this.genera.set(result);
+
           // Redirect to genus detail page if exactly one genus is found
-          if (Genera.length === 1) {
-            this.router.navigate(['/genus', Genera[0].name]);
+          if (result.length === 1) {
+            this.router.navigate(['/genus', result[0].name]);
           }
         });
-      return;
-  
   }
 
 }
