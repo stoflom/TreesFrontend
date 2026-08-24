@@ -25,17 +25,17 @@ const GENUS: IGenusDocument = { id: 'g1', name: 'Acacia' };
 // A minimal tree document; only `id` is needed by the fall-through.
 const TREE: ITreeDocument = { id: 't1' } as ITreeDocument;
 
-@Component({ selector: 'dummy-family', template: '' })
+@Component({ selector: 'app-dummy-family', template: '' })
 class DummyFamilyComponent {}
 
-@Component({ selector: 'dummy-genus', template: '' })
+@Component({ selector: 'app-dummy-genus', template: '' })
 class DummyGenusComponent {}
 
-@Component({ selector: 'dummy-tree-detail', template: '' })
+@Component({ selector: 'app-dummy-tree-detail', template: '' })
 class DummyTreeDetailComponent {}
 
 @Component({
-  selector: 'test-host',
+  selector: 'app-test-host',
   imports: [RouterOutlet],
   template: '<router-outlet />',
 })
