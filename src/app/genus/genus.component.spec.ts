@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { of } from 'rxjs';
 import { ActivatedRoute, provideRouter } from '@angular/router';
 
 import { GenusComponent } from './genus.component';
@@ -12,12 +14,14 @@ describe('GenusComponent', () => {
     await TestBed.configureTestingModule({
       imports: [GenusComponent],
       providers: [
+        provideZonelessChangeDetection(),
         provideRouter([]),
         provideHttpClient(),
         {
           provide: ActivatedRoute,
           useValue: {
             snapshot: { paramMap: new Map<string, string>([['name', 'test']]) },
+            paramMap: of(new Map<string, string>([['name', 'test']])),
           },
         },
       ],

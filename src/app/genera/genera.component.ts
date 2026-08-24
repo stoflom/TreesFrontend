@@ -1,9 +1,8 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { IGenusDocument } from '../interfaces/genus';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
-import { Location } from '@angular/common';
-
 
 @Component({
     selector: 'app-genera',
@@ -13,36 +12,29 @@ import { Location } from '@angular/common';
     templateUrl: './genera.component.html',
     styleUrl: './genera.component.css'
 })
-export class GeneraComponent implements OnInit {
+export class GeneraComponent {
   private route = inject(ActivatedRoute);
   private treehttpService = inject(TreehttpService);
-  private location = inject(Location);
   private router = inject(Router);
 
+  private params = toSignal(this.route.paramMap, {
+    initialValue: this.route.snapshot.paramMap
+  });
 
-  genera = signal<IGenusDocument[]>([]);
+  private generaQuery = this.treehttpService.query<IGenusDocument[]>(() => {
+    const genusregex = this.params().get('name');
+    return genusregex ? this.treehttpService.genusRegexUrl(genusregex) : undefined;
+  }, []);
 
+  genera = this.generaQuery.value;
 
-  ngOnInit() {
-
-    const genusregex: string = this.route.snapshot.paramMap.get('name') as string;
-    this.getGenaByNameRegex(genusregex);
-   
+  constructor() {
+    // Redirect to genus detail page if exactly one genus is found
+    effect(() => {
+      const found = this.generaQuery.value();
+      if (found.length === 1) {
+        this.router.navigate(['/genus', found[0].name]);
+      }
+    });
   }
-
-
-  getGenaByNameRegex(genusregex: string): void {
-
-      this.treehttpService.findGenusByRegexName(genusregex)
-        .subscribe((result) => {
-          this.genera.set(result);
-
-          // Redirect to genus detail page if exactly one genus is found
-          if (result.length === 1) {
-            this.router.navigate(['/genus', result[0].name]);
-          }
-        });
-  }
-
 }
-

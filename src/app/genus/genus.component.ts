@@ -1,6 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
 import { IGenusDocument } from '../interfaces/genus';
 import { ITreeDocument } from '../interfaces/tree';
@@ -17,30 +17,29 @@ import { CommaSpacePipe } from '../pipes/commaspace';
     templateUrl: './genus.component.html',
     styleUrl: './genus.component.css'
 })
-export class GenusComponent implements OnInit {
+export class GenusComponent {
   private route = inject(ActivatedRoute);
   private treehttpService = inject(TreehttpService);
-  private location = inject(Location);
 
+  private params = toSignal(this.route.paramMap, {
+    initialValue: this.route.snapshot.paramMap
+  });
 
-  agenus = signal<IGenusDocument | undefined>(undefined);
-  treespecies = signal<ITreeDocument[] | undefined>(undefined);
+  private agenusQuery = this.treehttpService.query<IGenusDocument | undefined>(() => {
+    const name = this.params().get('name');
+    return name ? this.treehttpService.genusNameUrl(name) : undefined;
+  }, undefined);
 
-  genusnameparam: string = this.route.snapshot.paramMap.get('name') as string;
+  agenus = this.agenusQuery.value;
 
-  ngOnInit(): void {
-    this.getGenus();
-      this.getSpecies();
-  }
+  private speciesQuery = this.treehttpService.query<ITreeDocument[]>(() => {
+    const name = this.params().get('name');
+    return name ? this.treehttpService.treeGenusUrl(name) : undefined;
+  }, []);
 
-  getGenus(): void {
-    this.treehttpService.findGenusByName(this.genusnameparam)
-      .subscribe(genus => this.agenus.set(genus));
-  }
+  treespecies = this.speciesQuery.value;
 
   getSpecies(): void {
-    this.treehttpService.findTreesByGenus(this.genusnameparam)
-      .subscribe(species => this.treespecies.set(species));
+    this.speciesQuery.reload();
   }
- 
 }

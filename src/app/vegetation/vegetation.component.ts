@@ -1,6 +1,6 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
 import { IVegetationDocument } from '../interfaces/vegetation';
 
@@ -10,22 +10,16 @@ import { IVegetationDocument } from '../interfaces/vegetation';
   templateUrl: './vegetation.component.html',
   styleUrl: './vegetation.component.css',
 })
-export class Vegetation implements OnInit {
+export class Vegetation {
   private route = inject(ActivatedRoute);
   private treehttpService = inject(TreehttpService);
-  private location = inject(Location);
 
-  avegetation = signal<IVegetationDocument | undefined>(undefined);
+  private params = toSignal(this.route.paramMap, {
+    initialValue: this.route.snapshot.paramMap
+  });
 
-  ngOnInit(): void {
-    this.getVegetation();
-  }
-
-  getVegetation(): void {
-    const abbreviation = this.route.snapshot.paramMap.get('abbreviation') as string;
-    this.treehttpService
-      .findVegetationByAbbreviation(abbreviation)
-      .subscribe((vegetation) => this.avegetation.set(vegetation));
-  }
-
+  avegetation = this.treehttpService.query<IVegetationDocument | undefined>(() => {
+    const abbreviation = this.params().get('abbreviation');
+    return abbreviation ? this.treehttpService.vegetationAbbreviationUrl(abbreviation) : undefined;
+  }, undefined).value;
 }

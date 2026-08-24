@@ -1,12 +1,10 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ITreeDocument } from '../interfaces/tree';
-import { Location } from '@angular/common';
 import { TreehttpService } from '../services/treehttp.service';
 
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommaSpacePipe } from '../pipes/commaspace';
-
-
 
 @Component({
     selector: 'app-tree-detail',
@@ -17,21 +15,16 @@ import { CommaSpacePipe } from '../pipes/commaspace';
     templateUrl: './tree-detail.component.html',
     styleUrl: './tree-detail.component.css'
 })
-export class TreeDetailComponent implements OnInit {
+export class TreeDetailComponent {
     private route = inject(ActivatedRoute);
     private treehttpService = inject(TreehttpService);
-    private location = inject(Location);
 
-    atree = signal<ITreeDocument | undefined>(undefined);
+    private params = toSignal(this.route.paramMap, {
+        initialValue: this.route.snapshot.paramMap
+    });
 
-    ngOnInit(): void {
-        this.getTree()
-    }
-
-    getTree(): void {
-        const id: string = this.route.snapshot.paramMap.get('id') as string;
-        this.treehttpService.findTreeById(id)
-            .subscribe(tree => this.atree.set(tree));
-    }
-
+    atree = this.treehttpService.query<ITreeDocument | undefined>(() => {
+        const id = this.params().get('id');
+        return id ? this.treehttpService.idUrl(id) : undefined;
+    }, undefined).value;
 }

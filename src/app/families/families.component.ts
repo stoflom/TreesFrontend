@@ -1,9 +1,8 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { IFamilyDocument } from '../interfaces/family';
 import { TreehttpService } from '../services/treehttp.service';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
-import { Location } from '@angular/common';
-
 
 @Component({
     selector: 'app-families',
@@ -13,35 +12,29 @@ import { Location } from '@angular/common';
     templateUrl: './families.component.html',
     styleUrl: './families.component.css'
 })
-export class FamiliesComponent implements OnInit {
+export class FamiliesComponent {
   private route = inject(ActivatedRoute);
   private treehttpService = inject(TreehttpService);
-  private location = inject(Location);
   private router = inject(Router);
 
+  private params = toSignal(this.route.paramMap, {
+    initialValue: this.route.snapshot.paramMap
+  });
 
-  families = signal<IFamilyDocument[]>([]);
+  private familiesQuery = this.treehttpService.query<IFamilyDocument[]>(() => {
+    const familyregex = this.params().get('name');
+    return familyregex ? this.treehttpService.familyRegexUrl(familyregex) : undefined;
+  }, []);
 
+  families = this.familiesQuery.value;
 
-  ngOnInit() {
-
-    const familyregex: string = this.route.snapshot.paramMap.get('name') as string;
-        
-    this.getFamiliesByNameRegex(familyregex);
-    
+  constructor() {
+    // Redirect to family detail page if exactly one family is found
+    effect(() => {
+      const found = this.familiesQuery.value();
+      if (found.length === 1) {
+        this.router.navigate(['/family', found[0].name]);
+      }
+    });
   }
-
-
-  getFamiliesByNameRegex(familyregex: string): void {
-
-      this.treehttpService.findFamilyByRegexName(familyregex)
-        .subscribe((result) => {
-          this.families.set(result);
-
-          // Redirect to family detail page if exactly one family is found
-          if (result.length === 1) {
-            this.router.navigate(['/family', result[0].name]);
-          }
-        });
-  }
- }
+}
