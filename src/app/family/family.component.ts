@@ -17,15 +17,17 @@ import { CommaSpacePipe } from '../pipes/commaspace';
     styleUrl: './family.component.css'
 })
 export class FamilyComponent {
-    private route = inject(ActivatedRoute);
-    private treehttpService = inject(TreehttpService);
+  private route = inject(ActivatedRoute);
+  private treehttpService = inject(TreehttpService);
 
-    private params = toSignal(this.route.paramMap, {
-        initialValue: this.route.snapshot.paramMap
-    });
+  private params = toSignal(this.route.paramMap, {
+    initialValue: this.route.snapshot.paramMap
+  });
 
-    afamily = this.treehttpService.query<IFamilyDocument | undefined>(() => {
-        const name = this.params().get('name');
-        return name ? this.treehttpService.familyNameUrl(name) : undefined;
-    }, undefined).value;
+  private afamilyQuery = this.treehttpService.query<IFamilyDocument | undefined>(() => {
+    const name = this.params().get('name');
+    return name ? this.treehttpService.familyNameUrl(name) : undefined;
+  }, undefined);
+
+  afamily = this.afamilyQuery.value;
 }
