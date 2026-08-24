@@ -5,7 +5,7 @@
         <i>{{ avegetation.name }} </i> ({{ avegetation.abbreviation }})
       </h2>
         <div>
-          <p [innerHTML]="avegetation.description"></p>
+          <p [innerHTML]="avegetation.description | externalLinksNewTab"></p>
         </div>
     </div>
   }

@@ -3,10 +3,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TreehttpService } from '../services/treehttp.service';
 import { IVegetationDocument } from '../interfaces/vegetation';
+import { ExternalLinksNewTabPipe } from '../pipes/external-links-new-tab';
 
 @Component({
   selector: 'app-vegetation',
-  imports: [RouterModule],
+  imports: [RouterModule, ExternalLinksNewTabPipe],
   templateUrl: './vegetation.component.html',
   styleUrl: './vegetation.component.css',
 })
