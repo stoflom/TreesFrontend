@@ -49,9 +49,16 @@ export class TreehttpService {
     return resource;
   }
 
-  /** Escape '?' so it can be embedded in a backend regex path segment */
+  /**
+   * Encode a search term for embedding in a URL path segment.
+   *
+   * encodeURIComponent escapes the whole segment so that terms containing
+   * '/', '#', '%', spaces or '?' cannot break or misroute the URL.
+   * Express decodes the path param before the backend uses it as a regex,
+   * so all regex metacharacters survive the round trip.
+   */
   encode(term: string): string {
-    return term.replace(/\?/g, '%3F');
+    return encodeURIComponent(term);
   }
 
   idUrl(treeId: string): string {
