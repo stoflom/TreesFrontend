@@ -13,8 +13,14 @@ Checks:
   2. Version header matches the backend /api/version response.
   3. Perl-regex common-name search (English 'marula') returns 6 trees.
   4. A result links to the tree detail page, which renders.
-  5. Genus regex search ('^A') returns genera.
-  6. Family regex search ('ceae$') returns families.
+  5. Regex encode/decode round-trip (5a/5b/5c): search terms containing special
+     characters ('wood\u2020?$', 'ceae$', '^A') are percent-encoded by
+     TreehttpService.encode() (encodeURIComponent), the backend decodes
+     the path segment and applies the ORIGINAL regex to MongoDB. Verified
+     two ways per term:
+       a. the app log shows the exact encoded API URL segment, and
+       b. the result count equals the known-good count from the pre-change
+          version (DB is static): 212 / 132 / 45.
 
 Debug console access:
   A console + XHR network hook is installed after the initial page load.
@@ -42,8 +48,32 @@ skill_path = os.environ.get(
 if skill_path not in sys.path:
     sys.path.append(skill_path)
 
+import firefox_tester  # noqa: E402
 from firefox_tester import FirefoxTester  # noqa: E402
 from selenium.webdriver.common.by import By  # noqa: E402
+
+
+def _cached_geckodriver():
+    """Newest locally cached geckodriver (webdriver-manager cache), if any."""
+    import glob
+    pattern = os.path.expanduser("~/.cache/selenium/geckodriver/linux64/*/geckodriver")
+    cached = sorted(glob.glob(pattern))
+    return cached[-1] if cached else None
+
+
+# Pin geckodriver to the local cache when available so the test also runs
+# without internet access (webdriver-manager otherwise queries GitHub for
+# the latest version). Set SKIP_GECODRIVER_PIN=1 to force the normal
+# webdriver-manager flow.
+if os.environ.get("SKIP_GECODRIVER_PIN") != "1":
+    _cached = _cached_geckodriver()
+    if _cached:
+
+        class _CachedGeckoDriverManager:
+            def install(self):
+                return _cached
+
+        firefox_tester.GeckoDriverManager = _CachedGeckoDriverManager
 
 BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:4200"
 
@@ -78,6 +108,13 @@ def check(name, condition, detail=""):
     if not condition:
         failures.append(name)
     return condition
+
+
+def log_text(t):
+    """Text of the app's message log panel (TreehttpService URLs etc.)."""
+    if not t.is_element_present(By.CSS_SELECTOR, "app-messages", timeout=5):
+        return ""
+    return t.get_text(By.CSS_SELECTOR, "app-messages")
 
 
 def dump_logs(t, label):
@@ -130,7 +167,34 @@ def main():
         else:
             check("tree detail page renders", False, "skipped: no search results")
 
-        # 5. Genus regex search: '^A' (full reload, re-install hook)
+        # 5. Regex encode/decode round-trip: special characters in the search
+        # term must survive  form -> router URL -> TreehttpService.encode()
+        # (encodeURIComponent) -> Express path-param decode -> MongoDB $regex.
+        # The DB is static, so the known-good counts from the pre-change
+        # version are the ground truth.
+
+        # 5a. Name search with default term 'wood\u2020?$' (thorn, '?', '$') -> 212 trees
+        t.navigate(BASE + "/search")
+        t.wait_for_text(By.CSS_SELECTOR, "h1", TITLE, timeout=30)
+        t.wait(3)
+        t.execute_script(HOOK)
+        t.type_text(By.CSS_SELECTOR, "input[formcontrolname='searchterm']", "wood\u2020?$")
+        t.click(By.XPATH, "//button[contains(., 'Search names')]")
+        t.wait_for_url_contains("/trees/Eng/", timeout=30)
+        t.wait(6)  # 212 results take a moment to render
+        heading = t.get_text(By.CSS_SELECTOR, "h2").strip()
+        check(
+            "name search 'wood\u2020?$' returns 212 trees",
+            heading == "Found 212 Trees", f"'{heading}'",
+        )
+        log = log_text(t)
+        check(
+            "cnlan API URL segment is percent-encoded (wood\u2020?$ -> wood%E2%80%A0%3F%24)",
+            "cnlan/Eng/wood%E2%80%A0%3F%24" in log,
+            "no encoded URL in app log",
+        )
+
+        # 5b. Genus regex '^A' -> 45 genera
         t.navigate(BASE + "/search")
         t.wait_for_text(By.CSS_SELECTOR, "h1", TITLE, timeout=30)
         t.wait(3)
@@ -140,9 +204,18 @@ def main():
         t.wait_for_url_contains("/genus_regex/", timeout=30)
         t.wait(4)
         heading = t.get_text(By.CSS_SELECTOR, "h2").strip()
-        check("genus regex '^A' returns genera", "Genera" in heading and "0 Genera" not in heading, f"'{heading}'")
+        check(
+            "genus regex '^A' returns 45 genera",
+            heading == "Found 45 Genera", f"'{heading}'",
+        )
+        log = log_text(t)
+        check(
+            "genus API URL segment is percent-encoded (^A -> %5EA)",
+            "genus/regex/%5EA" in log,
+            "no encoded URL in app log",
+        )
 
-        # 6. Family regex search: 'ceae$'
+        # 5c. Family regex 'ceae$' -> 132 families
         t.navigate(BASE + "/search")
         t.wait_for_text(By.CSS_SELECTOR, "h1", TITLE, timeout=30)
         t.wait(3)
@@ -152,7 +225,16 @@ def main():
         t.wait_for_url_contains("/family_regex/", timeout=30)
         t.wait(4)
         heading = t.get_text(By.CSS_SELECTOR, "h2").strip()
-        check("family regex 'ceae$' returns families", "Families" in heading and "0 Families" not in heading, f"'{heading}'")
+        check(
+            "family regex 'ceae$' returns 132 families",
+            heading == "Found 132 Families", f"'{heading}'",
+        )
+        log = log_text(t)
+        check(
+            "family API URL segment is percent-encoded (ceae$ -> ceae%24)",
+            "family/regex/ceae%24" in log,
+            "no encoded URL in app log",
+        )
 
         try:
             t.screenshot("/tmp/trees-smoke.png")
