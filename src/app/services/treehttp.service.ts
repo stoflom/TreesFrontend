@@ -6,8 +6,10 @@ import { MessageService } from './message.service';
 export class TreehttpService {
   private messageService = inject(MessageService);
 
-  //Testing against fedora-nuc backend
-  private SATreesUrl = 'http://fedora-nuc:5002/api'; // URL to web api
+  // Same-origin base path: the Deno backend serves this build under /api in
+  // production, and `ng serve` proxies /api to the backend (see proxy.json,
+  // wired up via "proxyConfig" in angular.json).
+  private SATreesUrl = '/api';
 
   /**
    * Fetch a backend path into a signal-backed resource.
