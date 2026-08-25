@@ -3,6 +3,7 @@ import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PersistService } from '../services/persist.service';
 import { MessageService } from '../services/message.service';
+import { SearchParams } from '../interfaces/search-params';
 
 @Component({
     selector: 'app-search-editor',
@@ -17,7 +18,7 @@ export class SearchEditorComponent implements OnInit {
     private persistService = inject(PersistService);
     private messageService = inject(MessageService);
 
-    public searchparams = {  //These are initial-initial values, will be refreshed from persistence
+    public searchparams: SearchParams = {  //These are initial-initial values, will be refreshed from persistence
         language: 'Eng',
         searchterm: 'wood†?$',  //ends with 'wood' or 'wood†'
         group: '1',
@@ -34,10 +35,12 @@ export class SearchEditorComponent implements OnInit {
 
     private getsearchparams(): void {
 
-        const obj: object | null = this.persistService.retrieve();
+        const obj: SearchParams | null = this.persistService.retrieve();
 
-        if (obj != null && typeof obj === typeof this.searchparams) {
-            this.searchparams = obj as typeof this.searchparams;
+        // PersistService already validates the shape; null means
+        // absent or corrupt persistence, in which case defaults stay.
+        if (obj != null) {
+            this.searchparams = obj;
         }
     }
 

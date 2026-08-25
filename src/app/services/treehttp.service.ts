@@ -94,7 +94,8 @@ export class TreehttpService {
   }
 
   familyNameUrl(familyName: string): string {
-    return `${this.SATreesUrl}/Family/${familyName}`;
+    // Backend route is lowercase: GET /api/family/:name
+    return `${this.SATreesUrl}/family/${familyName}`;
   }
 
   familyRegexUrl(familyName: string): string {

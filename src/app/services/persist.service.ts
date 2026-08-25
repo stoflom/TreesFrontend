@@ -1,5 +1,6 @@
 import { Service, inject } from '@angular/core';
 import { MessageService } from './message.service';
+import { SearchParams } from '../interfaces/search-params';
 
 //This should use the database or be stored statically here,
 // but for now we will use localStorage which allows the user the choice
@@ -11,39 +12,55 @@ export class PersistService {
   private messageService = inject(MessageService);
 
   private storageKey = 'SearchParams';
-  private localData: object | null = null;
+  private localData: SearchParams | null = null;
 
-  public retrieve() {
+  public retrieve(): SearchParams | null {
     if (this.localData !== null) {
       return this.localData;
     }
     try {
       const item = localStorage.getItem(this.storageKey);
       if (item) {
-        this.localData = JSON.parse(item) as object;
-        return this.localData;
+        const parsed: unknown = JSON.parse(item);
+        if (this.isValidSearchParams(parsed)) {
+          this.localData = parsed;
+          return this.localData;
+        }
       }
-    } catch  {
+    } catch {
       // localStorage failed
       this.log('Warning: Unable to retrieve data from localStorage.');
     }
     return null;
   }
 
-  public persist(aobject: object) {
-    this.localData = aobject;
+  public persist(searchparams: SearchParams) {
+    this.localData = searchparams;
     try {
-      localStorage.setItem(this.storageKey, JSON.stringify(aobject));
+      localStorage.setItem(this.storageKey, JSON.stringify(searchparams));
     } catch {
       // localStorage failed, but continue
       this.log('Warning: Unable to persist data to localStorage.');
     }
-    
+
   }
 
-   /** Log a message with the MessageService */
+  /** Structural check of data loaded from localStorage (untrusted input). */
+  private isValidSearchParams(value: unknown): value is SearchParams {
+    if (typeof value !== 'object' || value === null) {
+      return false;
+    }
+    const obj = value as Record<string, unknown>;
+    return SEARCH_PARAM_KEYS.every((key) => typeof obj[key] === 'string');
+  }
+
+  /** Log a message with the MessageService */
   private log(message: string) {
     this.messageService.add(`PersistService: ${message}`);
   }
 }
 
+/** Keys required for a SearchParams object to be considered valid. */
+const SEARCH_PARAM_KEYS: readonly (keyof SearchParams)[] = [
+  'language', 'searchterm', 'group', 'genus', 'family',
+];
