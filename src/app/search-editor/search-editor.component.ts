@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PersistService } from '../services/persist.service';
 import { MessageService } from '../services/message.service';
@@ -61,15 +61,15 @@ export class SearchEditorComponent implements OnInit {
         });
     }
 
-    public searchlnregexFG = new UntypedFormGroup({
-        language: new UntypedFormControl(this.searchparams.language),
-        searchterm: new UntypedFormControl(this.searchparams.searchterm)
+    public searchlnregexFG = new FormGroup({
+        language: new FormControl<string>(this.searchparams.language),
+        searchterm: new FormControl<string>(this.searchparams.searchterm)
     });
 
     public onSubmitsearchlnregexFG() {
         //console.warn(this.searchlnregexFG.value);
-        const lang = this.searchlnregexFG.value.language;
-        const term = this.searchlnregexFG.value.searchterm;
+        const lang = this.searchlnregexFG.value.language ?? '';
+        const term = this.searchlnregexFG.value.searchterm ?? '';
         this.searchparams.language = lang;
         this.searchparams.searchterm = term;
         this.persistService.persist(this.searchparams);
@@ -77,37 +77,37 @@ export class SearchEditorComponent implements OnInit {
 
     };
 
-    searchgroupFG = new UntypedFormGroup({
-        group: new UntypedFormControl(this.searchparams.group)
+    searchgroupFG = new FormGroup({
+        group: new FormControl<string>(this.searchparams.group)
     });
 
     public onSubmitsearchgroupFG() {
         //  console.warn(this.searchgroupFG.value);
-        const grp = this.searchgroupFG.value.group;
+        const grp = this.searchgroupFG.value.group ?? '';
         this.searchparams.group = grp;
         this.persistService.persist(this.searchparams);
         this.router.navigate(['/group', grp]);
     };
 
-    searchgenusFG = new UntypedFormGroup({
-        genus: new UntypedFormControl(this.searchparams.genus)
+    searchgenusFG = new FormGroup({
+        genus: new FormControl<string>(this.searchparams.genus)
     });
 
     public onSubmitsearchgenusFG() {
         //  console.warn(this.searchgenusFG.value);
-        const gns = this.searchgenusFG.value.genus;
+        const gns = this.searchgenusFG.value.genus ?? '';
         this.searchparams.genus = gns;
         this.persistService.persist(this.searchparams);
         this.router.navigate(['/genus_regex', gns]);
     };
 
-    searchfamilyFG = new UntypedFormGroup({
-        family: new UntypedFormControl(this.searchparams.family)
+    searchfamilyFG = new FormGroup({
+        family: new FormControl<string>(this.searchparams.family)
     });
 
     public onSubmitsearchfamilyFG() {
         //  console.warn(this.searchfamilyFG.value);
-        const fam = this.searchfamilyFG.value.family;
+        const fam = this.searchfamilyFG.value.family ?? '';
         this.searchparams.family = fam;
         this.persistService.persist(this.searchparams);
         this.router.navigate(['/family_regex', fam]);
