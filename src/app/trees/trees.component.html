@@ -1,25 +1,37 @@
 <div class="header"></div>
-@if (trees()) {
-  <h2>Found {{ trees().length }} Trees</h2>
-  } <!--Must check if trees are defined here!-->
+@switch (status()) {
+@case ('loading') {
+  <p class="loading-state">Loading trees…</p>
+}
+@case ('error') {
+  <h2>Failed to load trees</h2>
+  <p class="error-state">The search request failed. See the log below for details.</p>
+}
+@default {
+  @if (trees().length) {
+    <h2>Found {{ trees().length }} Trees</h2>
+    <h3>Click on a tree name</h3>
 
-  <h3>Click on a tree name</h3>
+    <table>
+      @for (tree of trees(); track tree.id) {
+        <tr>
+          <td>
+            <a routerLink="/detail/{{ tree.id }}" class="selectable">
+            {{ tree.identity }} </a>
+          </td>
+          <td>
+            {{ tree.firstname }}
+          </td>
+        </tr>
+      }
+    </table>
+  } @else {
+    <h2>No trees found</h2>
+  }
+}
+}
 
-  <table>
-    @for (tree of trees(); track tree) {
-      <tr>
-        <td>
-          <a routerLink="/detail/{{ tree.id }}" class="selectable">
-          {{ tree.identity }} </a>
-        </td>
-        <td>
-          {{ tree.firstname }}
-        </td>
-      </tr>
-    }
-  </table>
-
-  <br><br>
+<br><br>
 <div>
   <a routerLink="/search" class="selectable"> Search Again </a>
 </div>

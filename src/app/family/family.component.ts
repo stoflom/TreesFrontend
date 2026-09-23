@@ -30,4 +30,5 @@ export class FamilyComponent {
   }, undefined);
 
   afamily = this.afamilyQuery.value;
+  afamilyStatus = this.afamilyQuery.status;
 }

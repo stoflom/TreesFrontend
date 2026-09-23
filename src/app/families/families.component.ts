@@ -27,6 +27,7 @@ export class FamiliesComponent {
   }, []);
 
   families = this.familiesQuery.value;
+  status = this.familiesQuery.status;
 
   constructor() {
     // Redirect to family detail page if exactly one family is found

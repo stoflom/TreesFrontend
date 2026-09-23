@@ -19,8 +19,11 @@ export class Vegetation {
     initialValue: this.route.snapshot.paramMap
   });
 
-  avegetation = this.treehttpService.query<IVegetationDocument | undefined>(() => {
+  private avegetationQuery = this.treehttpService.query<IVegetationDocument | undefined>(() => {
     const abbreviation = this.params().get('abbreviation');
     return abbreviation ? this.treehttpService.vegetationAbbreviationUrl(abbreviation) : undefined;
-  }, undefined).value;
+  }, undefined);
+
+  avegetation = this.avegetationQuery.value;
+  avegetationStatus = this.avegetationQuery.status;
 }

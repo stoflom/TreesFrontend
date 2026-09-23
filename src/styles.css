@@ -37,6 +37,7 @@
   /* Link colors */
   --link-color: #091406;
   --link-visited-color: #365b2c;
+  --error-color: #b00020;
   
   /* Form elements */
   --input-bg: #fff;
@@ -80,6 +81,7 @@
   /* Link colors */
   --link-color: #32cb49;
   --link-visited-color: #75c18c;
+  --error-color: #ff6b6b;
   
   /* Form elements */
   --input-bg: #333;
@@ -314,4 +316,14 @@ a:visited {
 /* Minor transitions for smooth UI */
 button, .selectable {
   transition: background-color 140ms ease, color 140ms ease, box-shadow 140ms ease;
+}
+
+/* Async state feedback (loading / error) */
+.loading-state {
+  color: var(--muted-text);
+  font-style: italic;
+}
+
+.error-state {
+  color: var(--error-color);
 }

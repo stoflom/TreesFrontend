@@ -1,3 +1,12 @@
+@switch (atreeStatus()) {
+@case ('loading') {
+<p class="loading-state">Loading tree…</p>
+}
+@case ('error') {
+<h2>Failed to load tree</h2>
+<p class="error-state">The tree could not be loaded. See the log below for details.</p>
+}
+@default {
 @if (atree(); as atree) {
 <div>
   <h2 class="detail">
@@ -123,6 +132,11 @@
   </span>
   }
 </div>
+} @else {
+<h2>Tree not found</h2>
+<p class="error-state">No tree exists with this identifier.</p>
+}
+}
 }
 
 <br><br>

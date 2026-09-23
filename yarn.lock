@@ -5009,18 +5009,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ngx-cookie-service@npm:^22.0.0":
-  version: 22.0.0
-  resolution: "ngx-cookie-service@npm:22.0.0"
-  dependencies:
-    tslib: "npm:^2.8.1"
-  peerDependencies:
-    "@angular/common": ^22.0.0
-    "@angular/core": ^22.0.0
-  checksum: 10c0/78da1ca8f45f3fb56ccf0a099bcaf8d361e048b0f36e3b3c785e28bc240e30c86221daf6546b7a597ef8c1a0cb6d37404b46ea81d0cf9793ae3eb3387742dc09
-  languageName: node
-  linkType: hard
-
 "node-addon-api@npm:^6.1.0":
   version: 6.1.0
   resolution: "node-addon-api@npm:6.1.0"
@@ -6174,7 +6162,6 @@ __metadata:
     angular-eslint: "npm:22.1.0"
     eslint: "npm:^9.39.1"
     jsdom: "npm:^30.0.1"
-    ngx-cookie-service: "npm:^22.0.0"
     rxjs: "npm:~7.8.2"
     tslib: "npm:^2.8.1"
     typescript: "npm:~6.0.3"

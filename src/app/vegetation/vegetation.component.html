@@ -1,4 +1,13 @@
 <div>
+  @switch (avegetationStatus()) {
+  @case ('loading') {
+  <p class="loading-state">Loading vegetation type…</p>
+  }
+  @case ('error') {
+  <h2>Failed to load vegetation type</h2>
+  <p class="error-state">The vegetation type could not be loaded. See the log below for details.</p>
+  }
+  @default {
   @if (avegetation(); as avegetation) {
     <div>
       <h2 class="detail"> Vegetation Type:
@@ -8,6 +17,11 @@
           <p [innerHTML]="avegetation.description | externalLinksNewTab"></p>
         </div>
     </div>
+  } @else {
+  <h2>Vegetation type not found</h2>
+  <p class="error-state">No vegetation type exists with this abbreviation.</p>
+  }
+  }
   }
 
   <br><br>

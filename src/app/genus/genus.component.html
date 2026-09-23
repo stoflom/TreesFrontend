@@ -1,3 +1,12 @@
+@switch (agenusStatus()) {
+@case ('loading') {
+<p class="loading-state">Loading genus…</p>
+}
+@case ('error') {
+<h2>Failed to load genus</h2>
+<p class="error-state">The genus could not be loaded. See the log below for details.</p>
+}
+@default {
 @if (agenus(); as agenus) {
 <div>
   <h2>Genus:
@@ -29,6 +38,11 @@
       }
     </table>
   </div>
+  @switch (speciesStatus()) {
+  @case ('loading') {
+  <p class="loading-state">Loading species…</p>
+  }
+  @default {
   @if (treespecies(); as treespecies) {
   <h3>
     {{treespecies.length}} local tree specie(s) in genus:
@@ -50,6 +64,8 @@
   <br>
   <button (click)="getSpecies()" class="selectable">Get Species List</button>
   }
+  }
+  }
   @if (agenus.hyperlinks) {
   <span>
     <h3>
@@ -68,6 +84,11 @@
   </span>
   }
 </div>
+} @else {
+<h2>Genus not found</h2>
+<p class="error-state">No genus exists with this name.</p>
+}
+}
 }
 
 <br><br>

@@ -1,23 +1,35 @@
-@if (families()) {
-<h2>Found {{ families().length }} Families</h2>
+<div class="header"></div>
+@switch (status()) {
+@case ('loading') {
+  <p class="loading-state">Loading families…</p>
 }
-<!--Must check if Families are defined here!-->
+@case ('error') {
+  <h2>Failed to load families</h2>
+  <p class="error-state">The search request failed. See the log below for details.</p>
+}
+@default {
+  @if (families().length) {
+    <h2>Found {{ families().length }} Families</h2>
+    <h3>Click on a family name</h3>
 
-<h3>Click on a family name</h3>
-
-<table>
-  @for (family of families(); track family) {
-  <tr>
-    <td>
-      <a routerLink="/family/{{ family.name }}" class="selectable">
-        {{ family.name }}
-      </a>
-    </td>
-  </tr>
+    <table>
+      @for (family of families(); track family) {
+        <tr>
+          <td>
+            <a routerLink="/family/{{ family.name }}" class="selectable">
+              {{ family.name }}
+            </a>
+          </td>
+        </tr>
+      }
+    </table>
+  } @else {
+    <h2>No families found</h2>
   }
-</table>
+}
+}
 
 <br><br>
 <div>
-   <a routerLink="/search" class="selectable"> Search Again </a>
+  <a routerLink="/search" class="selectable"> Search Again </a>
 </div>

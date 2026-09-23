@@ -43,6 +43,7 @@ export class TreesComponent {
   }, []);
 
   trees = this.treesQuery.value;
+  status = this.treesQuery.status;
 
   constructor() {
     // No usable route parameters: nothing to query, go back.

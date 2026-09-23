@@ -27,6 +27,7 @@ export class GeneraComponent {
   }, []);
 
   genera = this.generaQuery.value;
+  status = this.generaQuery.status;
 
   constructor() {
     // Redirect to genus detail page if exactly one genus is found

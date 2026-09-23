@@ -23,8 +23,11 @@ export class TreeDetailComponent {
         initialValue: this.route.snapshot.paramMap
     });
 
-    atree = this.treehttpService.query<ITreeDocument | undefined>(() => {
+    private atreeQuery = this.treehttpService.query<ITreeDocument | undefined>(() => {
         const id = this.params().get('id');
         return id ? this.treehttpService.idUrl(id) : undefined;
-    }, undefined).value;
+    }, undefined);
+
+    atree = this.atreeQuery.value;
+    atreeStatus = this.atreeQuery.status;
 }

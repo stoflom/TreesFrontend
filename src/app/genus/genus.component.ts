@@ -31,6 +31,7 @@ export class GenusComponent {
   }, undefined);
 
   agenus = this.agenusQuery.value;
+  agenusStatus = this.agenusQuery.status;
 
   private speciesQuery = this.treehttpService.query<ITreeDocument[]>(() => {
     const name = this.params().get('name');
@@ -38,6 +39,7 @@ export class GenusComponent {
   }, []);
 
   treespecies = this.speciesQuery.value;
+  speciesStatus = this.speciesQuery.status;
 
   getSpecies(): void {
     this.speciesQuery.reload();
